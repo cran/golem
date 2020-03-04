@@ -1,17 +1,37 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
   eval = FALSE
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
+#  install.packages("golem")
+
+## -----------------------------------------------------------------------------
 #  remotes::install_github("Thinkr-open/golem")
 
-## ------------------------------------------------------------------------
+## ---- echo=FALSE, out.width="80%", fig.align="center", eval=TRUE--------------
+knitr::include_graphics("golemtemplate.png")
+
+## -----------------------------------------------------------------------------
 #  golem::create_golem(path = "path/to/package")
 
-## ------------------------------------------------------------------------
+## ----include = FALSE, eval = TRUE, error = TRUE-------------------------------
+x <- fs::path(tempdir(), "golex")
+try(fs::dir_delete(x), silent = TRUE)
+golem::create_golem(path = x, package_name = "golex", open = FALSE)
+
+## ----echo = FALSE, eval = TRUE------------------------------------------------
+z <- capture.output( fs::dir_tree(x))
+z <- z[-1]
+w <- lapply(
+  z, function(x){
+    cat(x, "\n")
+  }
+)
+
+## -----------------------------------------------------------------------------
 #  golem::fill_desc(
 #    pkg_name = "shinyexample", # The Name of the package containing the App
 #    pkg_title = "PKG_TITLE", # The Title of the package containing the App
@@ -22,37 +42,36 @@ knitr::opts_chunk$set(
 #    repo_url = NULL # The (optional) URL of the GitHub Repo
 #  )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  golem::set_golem_options()
 
-## ----eval = FALSE--------------------------------------------------------
-#  usethis::use_mit_license( name = "Golem User" )  # You can set another licence here
+## ----eval = FALSE-------------------------------------------------------------
+#  ## See ?usethis for more information
+#  usethis::use_mit_license( name = "Golem User" )  # You can set another license here
 #  usethis::use_readme_rmd( open = FALSE )
 #  usethis::use_code_of_conduct()
 #  usethis::use_lifecycle_badge( "Experimental" )
-#  
 #  usethis::use_news_md( open = FALSE )
-#  usethis::use_git()
 
-## ------------------------------------------------------------------------
-#  usethis::use_data_raw()
-
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  golem::use_recommended_tests()
 
-## ------------------------------------------------------------------------
-#  golem::use_recommended_deps("")
+## -----------------------------------------------------------------------------
+#  golem::use_recommended_deps()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  # Remove current favicon
 #  golem::remove_favicon()
 #  # Add a new one
 #  golem::use_favicon( path = "path/to/favicon")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  golem::use_utils_ui()
 #  golem::use_utils_server()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  rstudioapi::navigateToFile("dev/02_dev.R")
+
+## ----eval = TRUE--------------------------------------------------------------
+try(fs::dir_delete(x), silent = TRUE)
 

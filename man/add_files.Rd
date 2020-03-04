@@ -7,29 +7,47 @@
 \alias{add_ui_server_files}
 \title{Create Files}
 \usage{
-add_js_file(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE)
+add_js_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  with_doc_ready = TRUE
+)
 
-add_js_handler(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE)
+add_js_handler(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
 
-add_css_file(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE)
+add_css_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
 
-add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app",
-  dir_create = TRUE)
+add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app", dir_create = TRUE)
 }
 \arguments{
 \item{name}{The name of the module}
 
-\item{pkg}{Path to the root of the package. Default is \code{"."}.}
+\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
-\item{dir}{Path to the dir of the file}
+\item{dir}{Path to the dir where the file while be created.}
 
 \item{open}{Should the file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
+
+\item{with_doc_ready}{Should the default file include \verb{$( document ).ready()}?}
 }
 \description{
 These functions create files inside the \code{inst/app} folder.
+These functions can be used outside of a {golem} project.
 }

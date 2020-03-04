@@ -1,35 +1,41 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
   eval = FALSE
 )
 
-## ------------------------------------------------------------------------
-#  run_app <- function(...) {
+## -----------------------------------------------------------------------------
+#  run_app <- function(
+#    ...
+#  ) {
 #    with_golem_options(
-#      app = shinyApp(ui = app_ui(), server = app_server),
+#      app = shinyApp(
+#        ui = app_ui,
+#        server = app_server
+#      ),
 #      golem_opts = list(...)
 #    )
 #  }
+#  
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  run_app(this = "that")
 #  # And in the app
 #  this <- get_golem_options("this")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  golem::add_rstudioconnect_file()
 #  golem::add_shinyappsio_file()
 #  golem::add_shinyserver_file()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  # If you want to deploy via a generic Dockerfile
 #  golem::add_dockerfile()
 #  
 #  # If you want to deploy to ShinyProxy
-#  golem::add_shinyproxy_dockerfile()
+#  golem::add_dockerfile_shinyproxy()
 #  
 #  # If you want to deploy to Heroku
-#  golem::add_heroku_dockerfile()
+#  golem::add_dockerfile_heroku()
 
