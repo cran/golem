@@ -1,6 +1,6 @@
 Package: golem
 Title: A Framework for Robust Shiny Applications
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     c(person(given = "Vincent",
              family = "Guyader",
@@ -47,7 +47,7 @@ Language: en-US
 LazyData: true
 RoxygenNote: 7.0.2
 NeedsCompilation: no
-Packaged: 2020-03-04 10:11:52 UTC; vincent
+Packaged: 2020-03-05 14:18:00 UTC; colin
 Author: Vincent Guyader [cre, aut] (<https://orcid.org/0000-0003-0671-9270>),
   Colin Fay [aut] (<https://orcid.org/0000-0001-7343-1846>),
   Sébastien Rochette [aut] (<https://orcid.org/0000-0002-1565-9313>),
@@ -56,4 +56,4 @@ Author: Vincent Guyader [cre, aut] (<https://orcid.org/0000-0003-0671-9270>),
   ThinkR [cph]
 Maintainer: Vincent Guyader <vincent@thinkr.fr>
 Repository: CRAN
-Date/Publication: 2020-03-04 10:50:02 UTC
+Date/Publication: 2020-03-05 15:00:02 UTC

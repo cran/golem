@@ -8,7 +8,7 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 
 
@@ -18,9 +18,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,16 +30,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +46,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -117,6 +115,9 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
+}
+#header {
+text-align: center;
 }
 #TOC {
 clear: both;
@@ -285,8 +286,7 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -303,7 +303,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(golem)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(golem)</a></code></pre></div>
 <div id="about-instgolem-config.yml" class="section level2">
 <h2>About <code>inst/golem-config.yml</code></h2>
 <p>When you start a new <code>{golem}</code> application, you’ll find a file called <code>golem-config.yml</code> in the <code>inst/</code> folder.</p>
@@ -328,40 +328,40 @@ dev:
 </ul>
 <p>The good news is that if you don’t want/need to use <code>{config}</code>, you can safely ignore this file, <strong>just leave it where it is: it is used internally by the <code>{golem}</code> functions</strong>.</p>
 <p>These options are globally set with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">set_golem_options</span>()</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; -- Setting {golem} options in `golem-config.yml` -----</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; v Setting `golem_wd` to here::here()</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; You can change golem working directory with set_golem_wd(&#39;path/to/wd&#39;)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; v Setting `golem_name` to golex</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; v Setting `golem_version` to 0.0.0.9000</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; v Setting `app_prod` to FALSE</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; -- Setting {usethis} project as `golem_wd` -----------</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; &lt;U+2714&gt; Setting active project to &#39;C:/Users/aef/AppData/Local/Temp/Rtmp6bwjKW/golex&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">set_golem_options</span>()</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; ── Setting {golem} options in `golem-config.yml` ─────────</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; ✓ Setting `golem_wd` to here::here()</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; You can change golem working directory with set_golem_wd(&#39;path/to/wd&#39;)</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; ✓ Setting `golem_name` to golex</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; ✓ Setting `golem_version` to 0.0.0.9000</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; ✓ Setting `app_prod` to FALSE</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; ── Setting {usethis} project as `golem_wd` ───────────────</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; ✔ Setting active project to &#39;/private/var/folders/5z/rm2h62lj45d332kfpj28c8zm0000gn/T/Rtmpc84Nw3/golex&#39;</span></a></code></pre></div>
 <p>The functions reading the options in this config file are:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">get_golem_name</span>()</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; [1] &quot;golex&quot;</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">get_golem_wd</span>()</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; [1] &quot;C:/Users/aef/AppData/Local/Temp/Rtmp6bwjKW/golex&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="kw">get_golem_version</span>()</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; [1] &quot;0.0.0.9000&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">get_golem_name</span>()</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; [1] &quot;golex&quot;</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">get_golem_wd</span>()</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; [1] &quot;/private/var/folders/5z/rm2h62lj45d332kfpj28c8zm0000gn/T/Rtmpc84Nw3/golex&quot;</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="kw">get_golem_version</span>()</a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; [1] &quot;0.0.0.9000&quot;</span></a></code></pre></div>
 <p>You can set these with:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">set_golem_name</span>(<span class="st">&quot;this&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">set_golem_wd</span>(<span class="st">&quot;.&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">set_golem_version</span>(<span class="st">&quot;0.0.1&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">set_golem_name</span>(<span class="st">&quot;this&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">set_golem_wd</span>(<span class="st">&quot;.&quot;</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">set_golem_version</span>(<span class="st">&quot;0.0.1&quot;</span>)</a></code></pre></div>
 </div>
 <div id="using-golem-config" class="section level2">
 <h2>Using <code>golem-config</code></h2>
 <p>If you’re already familiar with the <code>{config}</code> package, you can use this file just as any config file.</p>
 <p><code>{golem}</code> comes with an <code>amend_golem_config()</code> function to add elements to it.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">amend_golem_config</span>(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>, </span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="dt">value =</span> <span class="st">&quot;indev&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>)</span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">amend_golem_config</span>(</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>, </span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="dt">value =</span> <span class="st">&quot;inprod&quot;</span>, </span>
-<span id="cb6-8"><a href="#cb6-8"></a>  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">amend_golem_config</span>(</a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>, </a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">value =</span> <span class="st">&quot;indev&quot;</span></a>
+<a class="sourceLine" id="cb6-4" title="4">)</a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="kw">amend_golem_config</span>(</a>
+<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>, </a>
+<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">value =</span> <span class="st">&quot;inprod&quot;</span>, </a>
+<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></a>
+<a class="sourceLine" id="cb6-9" title="9">)</a></code></pre></div>
 <p>Will result in a <code>golem-config.yml</code> file as such:</p>
 <pre><code>default:
   golem_name: golex
@@ -372,26 +372,26 @@ production:
   app_prod: yes
   where: inprod
 dev:
-  golem_wd: C:/Users/aef/AppData/Local/Temp/Rtmp6bwjKW/golex</code></pre>
+  golem_wd: /private/var/folders/5z/rm2h62lj45d332kfpj28c8zm0000gn/T/Rtmpc84Nw3/golex</code></pre>
 </div>
 <div id="app_config.r" class="section level2">
 <h2><code>app_config.R</code></h2>
 <p>In <code>R/app_config.R</code>, you’ll find a <code>get_golem_config()</code> function that allows you to retrieve config from this config file:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>pkgload<span class="op">::</span><span class="kw">load_all</span>()</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; Loading golex</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">get_golem_config</span>(</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="st">&quot;where&quot;</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; [1] &quot;indev&quot;</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="kw">get_golem_config</span>(</span>
-<span id="cb8-8"><a href="#cb8-8"></a>  <span class="st">&quot;where&quot;</span>, </span>
-<span id="cb8-9"><a href="#cb8-9"></a>  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>)</span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt; [1] &quot;inprod&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">pkgload<span class="op">::</span><span class="kw">load_all</span>()</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; Loading golex</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="kw">get_golem_config</span>(</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="st">&quot;where&quot;</span></a>
+<a class="sourceLine" id="cb8-5" title="5">)</a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; [1] &quot;indev&quot;</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="kw">get_golem_config</span>(</a>
+<a class="sourceLine" id="cb8-8" title="8">  <span class="st">&quot;where&quot;</span>, </a>
+<a class="sourceLine" id="cb8-9" title="9">  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></a>
+<a class="sourceLine" id="cb8-10" title="10">)</a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; [1] &quot;inprod&quot;</span></a></code></pre></div>
 <p>Or using the env var (default <code>{config}</code> behavior):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">Sys.setenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE&quot;</span> =<span class="st"> &quot;production&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">get_golem_config</span>(<span class="st">&quot;where&quot;</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; [1] &quot;inprod&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">Sys.setenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE&quot;</span> =<span class="st"> &quot;production&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">get_golem_config</span>(<span class="st">&quot;where&quot;</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; [1] &quot;inprod&quot;</span></a></code></pre></div>
 </div>
 <div id="golem_config-vs-golem_options" class="section level2">
 <h2><code>golem_config</code> vs <code>golem_options</code></h2>
