@@ -3,36 +3,114 @@
 \name{add_js_file}
 \alias{add_js_file}
 \alias{add_js_handler}
+\alias{add_js_input_binding}
+\alias{add_js_output_binding}
 \alias{add_css_file}
+\alias{add_html_template}
 \alias{add_ui_server_files}
 \title{Create Files}
 \usage{
-add_js_file(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE, with_doc_ready = TRUE)
+add_js_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  with_doc_ready = TRUE,
+  template = golem::js_template,
+  ...
+)
 
-add_js_handler(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE)
+add_js_handler(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  template = golem::js_handler_template,
+  ...
+)
 
-add_css_file(name, pkg = get_golem_wd(), dir = "inst/app/www",
-  open = TRUE, dir_create = TRUE)
+add_js_input_binding(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  initialize = FALSE,
+  dev = FALSE,
+  events = list(name = "click", rate_policy = FALSE)
+)
 
-add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app",
-  dir_create = TRUE)
+add_js_output_binding(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
+
+add_css_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  template = golem::css_template,
+  ...
+)
+
+add_html_template(
+  name = "template.html",
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
+
+add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app", dir_create = TRUE)
 }
 \arguments{
-\item{name}{The name of the module}
+\item{name}{The name of the module.}
 
 \item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{dir}{Path to the dir where the file while be created.}
 
-\item{open}{Should the file be opened?}
+\item{open}{Should the created file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
 
-\item{with_doc_ready}{Should the default file include \code{$( document ).ready()}?}
+\item{with_doc_ready}{For JS file - Should the default file include \verb{$( document ).ready()}?}
+
+\item{template}{Function writing in the created file.
+You may overwrite this with your own template function.}
+
+\item{...}{Arguments to be passed to the \code{template} function.}
+
+\item{initialize}{For JS file - Whether to add the initialize method.
+Default to FALSE. Some JavaScript API require to initialize components
+before using them.}
+
+\item{dev}{Whether to insert console.log calls in the most important
+methods of the binding. This is only to help building the input binding.
+Default is FALSE.}
+
+\item{events}{List of events to generate event listeners in the subscribe method.
+For instance, \code{list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))}.
+The list contain names and rate policies to apply to each event. If a rate policy is found,
+the debounce method with a default delay of 250 ms is applied. You may edit manually according to
+\url{https://shiny.rstudio.com/articles/building-inputs.html}}
+}
+\value{
+The path to the file, invisibly.
 }
 \description{
 These functions create files inside the \code{inst/app} folder.
-These functions can be used outside of a {golem} project.
+}
+\note{
+\code{add_ui_server_files} will be deprecated in future version of \code{{golem}}
+}
+\seealso{
+\code{\link{js_template}}, \code{\link{js_handler_template}}, and \code{\link{css_template}}
 }

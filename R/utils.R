@@ -131,7 +131,7 @@ cat_info <- function(...){
 cat_exists <- function(where){
   cat_red_bullet(
     sprintf(
-      "%s already exists, skipping the copy.", 
+      "[Skipped] %s already exists.", 
       path_file(where)
     )
   )
@@ -139,6 +139,48 @@ cat_exists <- function(where){
     sprintf(
       "If you want replace it, remove the %s file first.", 
       path_file(where)
+    )
+  )
+}
+
+cat_dir_necessary <- function(){
+  cat_red_bullet(
+    "File not added (needs a valid directory)"
+  )
+}
+
+cat_start_download <- function(){
+  cat_line("")
+  cat_rule("Initiating file download")
+}
+
+cat_downloaded <- function(
+  where, 
+  file = "File"
+){
+  cat_green_tick(
+    sprintf(
+      "%s downloaded at %s",
+      file, 
+      where
+    )
+  )
+}
+
+cat_start_copy <- function(){
+  cat_line("")
+  cat_rule("Copying file")
+}
+
+cat_copied <- function(
+  where,
+  file = "File"
+){
+  cat_green_tick(
+    sprintf(
+      "%s copied to %s",
+      file,
+      where
     )
   )
 }
@@ -166,14 +208,15 @@ cat_automatically_linked <- function(){
 
 open_or_go_to <- function(
   where,
-  open
+  open_file
 ){
   if (
     rstudioapi::isAvailable() && 
-    open && 
+    open_file && 
     rstudioapi::hasFun("navigateToFile")
   ){
     rstudioapi::navigateToFile(where)
+    
   } else {
     cat_red_bullet(
       sprintf(
@@ -182,6 +225,7 @@ open_or_go_to <- function(
       )
     )
   }
+  invisible(where)
 }
 
 desc_exist <- function(pkg){
@@ -236,21 +280,49 @@ after_creation_message_css <- function(
   }
 }
 
+after_creation_message_html_template <- function(
+  pkg, 
+  dir, 
+  name
+){
+  cat_line("")
+  cat_rule("To use this html file as a template, add the following code in app_ui.R:")
+  cat_line(darkgrey('htmlTemplate('))
+  cat_line(darkgrey(sprintf('    app_sys("app/www/%s.html"),', name)))
+  cat_line(darkgrey('    body = tagList()'))
+  cat_line(darkgrey('    # add here other template arguments'))
+  cat_line(darkgrey(')'))
+}
+
 file_created_dance <- function(
   where, 
   fun, 
   pkg, 
   dir, 
   name, 
-  open
+  open_file, 
+  catfun = cat_created
 ){
-  cat_created(where)
+  catfun(where)
   
   fun(pkg, dir, name)
   
-  open_or_go_to(where, open)
+  open_or_go_to(
+    where = where,
+    open_file = open_file
+  )
 }
 
+file_already_there_dance <- function(
+  where, 
+  open_file
+){
+  cat_green_tick("File already exists.")
+  open_or_go_to(
+    where = where,
+    open_file = open_file
+  )
+}
 # Minor toolings
 
 if_not_null <- function(x, ...){
@@ -273,3 +345,11 @@ file_ext <- function (x) {
   pos <- regexpr("\\.([[:alnum:]]+)$", x)
   ifelse(pos > -1L, substring(x, pos + 1L), "")
 }
+
+#' @importFrom utils menu
+yesno <- function (...) 
+{
+  cat(paste0(..., collapse = ""))
+  menu(c("Yes", "No")) == 1
+}
+

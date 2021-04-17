@@ -1,130 +1,40 @@
-#' @importFrom utils capture.output
-#' @importFrom cli cat_bullet
-#' @importFrom usethis use_build_ignore use_package
-#' @importFrom pkgload pkg_name
-#' @importFrom fs path file_create path_file
-add_rstudio_files <- function(
-  pkg,
-  open, 
-  service = c("RStudio Connect", "Shiny Server", "ShinyApps.io")
-){
-  service <- match.arg(service)
-  where <- path(pkg, "app.R")
-  file_create( where )
-  
-  write_there <- function(..., here = where){
-    write(..., here, append = TRUE)
-  }
-  
-  use_build_ignore( path_file(where) )
-  use_build_ignore("rsconnect")
-  write_there("# Launch the ShinyApp (Do not remove this comment)")
-  write_there("# To deploy, run: rsconnect::deployApp()")
-  write_there("# Or use the blue button on top of this file")
-  write_there("")
-  write_there("pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE)")
-  write_there("options( \"golem.app.prod\" = TRUE)")
-  write_there(
-    sprintf(
-      "%s::run_app() # add parameters here (if any)", 
-      getOption("golem.app.name", pkg_name())
-    )
-  )
-  #use_build_ignore(where)
-  x <- capture.output(use_package("pkgload"))
-  cat_created(where)
-  cat_line("To deploy, run:")
-  cat_bullet(darkgrey("rsconnect::deployApp()\n"))
-  cat_red_bullet(
-    sprintf(
-      "Note that you'll need to upload the whole package to %s",
-      service
-    )
-  )
-  
-  open_or_go_to(where, open)
-}
-
-#' Add an app.R at the root of your package to deploy on RStudio Connect
-#'
-#' @note 
-#' In previous versions, this function was called add_rconnect_file.
-#'
-#' @inheritParams add_module
-#' @param pkg Where to put the app.R. Default is `get_golem_wd()`.
-#' @param open Open the file
-#' @aliases add_rconnect_file add_rstudioconnect_file
-#' @export
-#' @rdname rstudio_deploy
-#' @examples
-#' \donttest{
-#' # Add a file for Connect
-#' if (interactive()){
-#'    add_rstudioconnect_file()
-#' }
-#' # Add a file for Shiny Server
-#' if (interactive()){
-#'     add_shinyserver_file()
-#' }
-#' # Add a file for Shinyapps.io
-#' if (interactive()){
-#'     add_shinyappsio_file()
-#' }
-#'}
-add_rstudioconnect_file <- function(
-  pkg = get_golem_wd(), 
-  open = TRUE
-){
-  add_rstudio_files(pkg = pkg, open = open, service = "RStudio Connect")
-}
-
-#' @rdname rstudio_deploy
-#' @export
-add_shinyappsio_file <- function(
-  pkg = get_golem_wd(), 
-  open = TRUE
-){
-  add_rstudio_files(pkg = pkg, open = open, service = "ShinyApps.io")
-}
-
-#' @rdname rstudio_deploy
-#' @export
-add_shinyserver_file <- function(
-  pkg = get_golem_wd(), 
-  open = TRUE
-){
-  add_rstudio_files(pkg = pkg, open = open, service = "Shiny Server")
-}
-
-#' Create a Dockerfile for  Shiny App 
+#' Create a Dockerfile for your App
 #' 
 #' Build a container containing your Shiny App. `add_dockerfile()` creates 
-#' a "classical" Dockerfile, while `add_dockerfile_shinyproxy()` and 
+#' a generic Dockerfile, while `add_dockerfile_shinyproxy()` and 
 #' `add_dockerfile_heroku()` creates platform specific Dockerfile.
 #'
-#' @inheritParams  add_module
+#' @inheritParams add_module
+#' 
 #' @param path path to the DESCRIPTION file to use as an input.
 #' @param output name of the Dockerfile output.
-#' @param from The FROM of the Dockerfile. Default is FROM rocker/r-ver:
-#'     with `R.Version()$major` and `R.Version()$minor`.
+#' @param from The FROM of the Dockerfile. Default is 
+#'     FROM rocker/r-ver:`R.Version()$major`.`R.Version()$minor`.
 #' @param as The AS of the Dockerfile. Default it NULL. 
-#' @param port The `options('shiny.port')` on which to run the Shiny App.
+#' @param port The `options('shiny.port')` on which to run the App.
 #'     Default is 80.  
-#' @param host The `options('shiny.host')` on which to run the Shiny App.
+#' @param host The `options('shiny.host')` on which to run the App.
 #'    Default is 0.0.0.0.  
-#' @param sysreqs boolean to check the system requirements    
-#' @param repos character vector, the base URL of the repositories  
-#' @param expand boolean, if `TRUE` each system requirement will be known his own RUN line
-#' @param open boolean, default is `TRUE` open the Dockerfile file
-#' @param build_golem_from_source  boolean, if `TRUE` no tar.gz Package is created and the Dockerfile directly mount the source folder to build it
-#' @param update_tar_gz boolean, if `TRUE` and build_golem_from_source is also `TRUE` an updated tar.gz Package is created
+#' @param sysreqs boolean. If TRUE, the Dockerfile will contain sysreq installation.  
+#' @param repos character. The URL(s) of the repositories to use for `options("repos")`.
+#' @param expand boolean. If `TRUE` each system requirement will have its own `RUN` line.
+#' @param open boolean. Should the Dockerfile be open after creation? Default is `TRUE`.
+#' @param build_golem_from_source boolean. If `TRUE` no tar.gz is created and 
+#'     the Dockerfile directly mount the source folder.
+#' @param update_tar_gz boolean. If `TRUE` and `build_golem_from_source` is also `TRUE`, 
+#'     an updated tar.gz is created.
+#' @param extra_sysreqs character vector. Extra debian system requirements. 
+#'    Will be installed with apt-get install.
+#'    
 #' @export
 #' @rdname dockerfiles
+#' 
 #' @importFrom usethis use_build_ignore
 #' @importFrom desc desc_get_deps
 #' @importFrom dockerfiler Dockerfile
 #' @importFrom rstudioapi navigateToFile isAvailable
 #' @importFrom fs path path_file
+#' 
 #' @examples
 #' \donttest{
 #' # Add a standard Dockerfile
@@ -140,6 +50,7 @@ add_shinyserver_file <- function(
 #'     add_dockerfile_heroku()
 #' }
 #'}
+#' @return The `{dockerfiler}` object, invisibly.
 add_dockerfile <- function(
   path = "DESCRIPTION", 
   output = "Dockerfile", 
@@ -153,16 +64,15 @@ add_dockerfile <- function(
   port = 80, 
   host = "0.0.0.0",
   sysreqs = TRUE,
-  repos = "https://cran.rstudio.com/",
+  repos = c(CRAN="https://cran.rstudio.com/"),
   expand = FALSE,
   open = TRUE,
   update_tar_gz = TRUE,
-  build_golem_from_source = TRUE
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
 ) {
   
   where <- path(pkg, output) 
-  
-  #if ( !check_file_exist(where) ) return(invisible(FALSE))
   
   usethis::use_build_ignore(path_file(where))
   
@@ -174,7 +84,8 @@ add_dockerfile <- function(
     repos = repos,
     expand = expand,
     build_golem_from_source = build_golem_from_source,
-    update_tar_gz = update_tar_gz
+    update_tar_gz = update_tar_gz,
+    extra_sysreqs = extra_sysreqs
   )
   
   dock$EXPOSE(port)
@@ -203,6 +114,8 @@ add_dockerfile <- function(
     build_golem_from_source = build_golem_from_source
   )
   
+  return(invisible(dock))
+  
 }
 
 #' @export
@@ -219,16 +132,15 @@ add_dockerfile_shinyproxy <- function(
   ), 
   as = NULL,
   sysreqs = TRUE,
-  repos = "https://cran.rstudio.com/",
+  repos = c(CRAN="https://cran.rstudio.com/"),
   expand = FALSE,
   open = TRUE,
   update_tar_gz = TRUE,
-  build_golem_from_source = TRUE
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
 ){
   
   where <- path(pkg, output)
-  
-  #if ( !check_file_exist(where) ) return(invisible(FALSE))
   
   usethis::use_build_ignore(output)
   
@@ -240,7 +152,8 @@ add_dockerfile_shinyproxy <- function(
     repos = repos, 
     expand = expand,
     build_golem_from_source = build_golem_from_source,
-    update_tar_gz = update_tar_gz
+    update_tar_gz = update_tar_gz,
+    extra_sysreqs = extra_sysreqs
   )
   
   dock$EXPOSE(3838)
@@ -263,7 +176,7 @@ add_dockerfile_shinyproxy <- function(
     build_golem_from_source = build_golem_from_source
   )
   
-  invisible(output)
+  return(invisible(dock))
   
 }
 
@@ -281,15 +194,14 @@ add_dockerfile_heroku <- function(
   ), 
   as = NULL,
   sysreqs = TRUE,
-  repos = "https://cran.rstudio.com/",
+  repos = c(CRAN="https://cran.rstudio.com/"),
   expand = FALSE,
   open = TRUE,
   update_tar_gz = TRUE,
-  build_golem_from_source = TRUE
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
 ){
   where <- path(pkg, output)
-  
-  #if ( !check_file_exist(where) )  return(invisible(FALSE)) 
   
   usethis::use_build_ignore(output)
   
@@ -301,7 +213,8 @@ add_dockerfile_heroku <- function(
     repos = repos,
     expand = expand,
     build_golem_from_source = build_golem_from_source,
-    update_tar_gz = update_tar_gz
+    update_tar_gz = update_tar_gz,
+    extra_sysreqs = extra_sysreqs
   )
   
   dock$CMD(
@@ -353,7 +266,7 @@ add_dockerfile_heroku <- function(
     }
   }
   usethis::use_build_ignore(files = output)
-  invisible(output)
+  return(invisible(dock))
   
 }
 
@@ -366,7 +279,7 @@ alert_build <- function(
   if ( ! build_golem_from_source ){
     cat_red_bullet(
       sprintf(
-        "Be sure to keep your %s_%s.tar.gz file (generated using `devtools::build()` ) in the same folder as the %s file generated", 
+        "Be sure to keep your %s_%s.tar.gz file (generated using `pkgbuild::build(vignettes = FALSE)` ) in the same folder as the %s file generated", 
         read.dcf(path)[1], 
         read.dcf(path)[1,][['Version']], 
         basename(output)
@@ -375,21 +288,13 @@ alert_build <- function(
   }
 }
 
-#' Create Dockerfile from DESCRIPTION
+#' Create a Dockerfile from a DESCRIPTION
 #
-#' @param path path to the DESCRIPTION file to use as an input.
-#'
-#' @param FROM The FROM of the Dockerfile. Default is FROM rocker/r-ver:
-#'     with `R.Version()$major` and `R.Version()$minor`.
-#' @param AS The AS of the Dockerfile. Default it NULL.
-#' @param sysreqs boolean to check the system requirements    
-#' @param repos character vector, the base URL of the repositories  
-#' @param expand boolean, if `TRUE` each system requirement will be known his own RUN line
-#' @param update_tar_gz boolean, if `TRUE` and build_golem_from_source is also `TRUE` an updated tar.gz Package is created
-#' @param build_golem_from_source  boolean, if `TRUE` no tar.gz Package is created and the Dockerfile directly mount the source folder to build it
+#' @inheritParams add_dockerfile
 #' @importFrom utils installed.packages packageVersion
 #' @importFrom remotes dev_package_deps
-#' @importFrom desc desc_get_deps
+#' @importFrom desc desc_get_deps desc_get
+#' @importFrom usethis use_build_ignore
 #' @noRd
 dock_from_desc <- function(
   path = "DESCRIPTION",
@@ -400,13 +305,14 @@ dock_from_desc <- function(
   ),
   AS = NULL,
   sysreqs = TRUE,
-  repos = "https://cran.rstudio.com/",
+  repos = c(CRAN="https://cran.rstudio.com/"),
   expand = FALSE,
   update_tar_gz = TRUE,
-  build_golem_from_source = TRUE
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
 ){
   
-  packages <- desc::desc_get_deps(path)$package
+  packages <- desc_get_deps(path)$package
   packages <- packages[packages != "R"] # remove R
   packages <- packages[ !packages %in% c(
     "base", "boot", "class", "cluster", 
@@ -435,6 +341,16 @@ dock_from_desc <- function(
     system_requirement <- NULL
   }
   
+  sr <- desc::desc_get(file = path,keys = "SystemRequirements" )
+  
+  if ( length(extra_sysreqs)>0 ){
+    system_requirement <- unique(c(system_requirement,extra_sysreqs))
+  } else if (!is.na(sr))   {
+    message(paste("the DESCRIPTION file contains the SystemRequirements bellow: ",sr))
+    message(paste("please check the Dockerfile created and if needed pass extra sysreqs using the extra_sysreqs param"))
+    
+  }
+  
   remotes_deps <- remotes::package_deps(packages)
   packages_on_cran <-  
     intersect(remotes_deps$package[remotes_deps$is_cran],packages)
@@ -459,7 +375,7 @@ dock_from_desc <- function(
   dock <- dockerfiler::Dockerfile$new(FROM = FROM, AS = AS)
   
   if (length(system_requirement)>0){
-    if ( !expand){
+    if ( !expand ){
       dock$RUN(
         paste(
           "apt-get update && apt-get install -y ",
@@ -476,17 +392,19 @@ dock_from_desc <- function(
     }
   }
   
+  
+  repos_as_character <- paste(capture.output(dput(repos)),collapse = "")
+  repos_as_character <-  gsub(pattern = '\"',replacement = '\'',x=repos_as_character)
+  
+  
   dock$RUN(
     sprintf(
-      "echo \"options(repos = c(CRAN = '%s'), download.file.method = 'libcurl')\" >> /usr/local/lib/R/etc/Rprofile.site",
-      repos
+      "echo \"options(repos = %s, download.file.method = 'libcurl', Ncpus = 4)\" >> /usr/local/lib/R/etc/Rprofile.site",
+      repos_as_character
     )
   )
   
   dock$RUN("R -e 'install.packages(\"remotes\")'")
-  
-  # We need to be sure install_cran is there
-  dock$RUN("R -e 'remotes::install_github(\"r-lib/remotes\", ref = \"97bbf81\")'")
   
   if ( length(packages_on_cran>0)){
     ping <- mapply(function(dock, ver, nm){
@@ -553,15 +471,23 @@ dock_from_desc <- function(
         )
       }
       
-      cat_green_tick(
-        sprintf(
-          " %s_%s.tar.gz created.", 
-          read.dcf(path)[1], 
-          read.dcf(path)[1,][['Version']]
+
+      if (isTRUE(requireNamespace("pkgbuild", quietly = TRUE))) {
+        out <- pkgbuild::build(path = ".", dest_path = ".", vignettes = FALSE)
+        if (missing(out)){
+          cat_red_bullet("Error during tar.gz building"          )
+          
+        } else {
+          usethis::use_build_ignore(files = out)
+        cat_green_tick(
+          sprintf(
+            " %s_%s.tar.gz created.", 
+            read.dcf(path)[1], 
+            read.dcf(path)[1,][['Version']]
+          )
         )
-      )
-      if (rlang::is_installed("pkgbuild")) {
-        pkgbuild::build(".")
+        }
+        
       } else {
         stop("please install {pkgbuild}")
       }
@@ -575,12 +501,49 @@ dock_from_desc <- function(
       to = "/app.tar.gz"
     )
     dock$RUN("R -e 'remotes::install_local(\"/app.tar.gz\",upgrade=\"never\")'")
+    dock$RUN("rm /app.tar.gz")
   } else {
     dock$RUN("mkdir /build_zone")
     dock$ADD(from = ".",to =  "/build_zone")
     dock$WORKDIR("/build_zone")
     dock$RUN("R -e 'remotes::install_local(upgrade=\"never\")'")
+    dock$RUN("rm -rf /build_zone")
   }
+  # Add a dockerignore
+  docker_ignore_add()
   
   dock
+}
+
+docker_ignore_add <- function(
+  pkg = get_golem_wd()
+){
+  
+  
+  path <- fs::path(
+    pkg,
+    ".dockerignore"
+  )
+  
+  if (!fs::file_exists(
+    path
+  )){
+    usethis::use_build_ignore(".dockerignore")
+    fs::file_create(path)
+    write_ignore <- function(content){
+      write(content, path, append = TRUE)
+    }
+    for (i in c(
+      ".RData", 
+      ".Rhistory", 
+      ".git", 
+      ".gitignore", 
+      "manifest.json", 
+      "rsconnect/",
+      "Rproj.user"
+    )) {
+      write_ignore(i)
+    }
+  } 
+  
 }

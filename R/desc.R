@@ -6,13 +6,17 @@
 #' @param author_first_name First Name of the author
 #' @param author_last_name Last Name of the author
 #' @param author_email Email of the author
+#' @param author_orcid ORCID of the author
 #' @param repo_url URL (if needed)
 #' @param pkg Path to look for the DESCRIPTION. Default is `get_golem_wd()`.
 #' 
 #' @importFrom desc description
 #' @importFrom cli cat_bullet
 #' @importFrom fs path path_abs
+#' 
 #' @export
+#' 
+#' @return The {desc} object, invisibly.
 fill_desc <- function(
   pkg_name, 
   pkg_title, 
@@ -20,6 +24,7 @@ fill_desc <- function(
   author_first_name, 
   author_last_name, 
   author_email, 
+  author_orcid = NULL, 
   repo_url = NULL,
   pkg = get_golem_wd()
 ){
@@ -29,24 +34,58 @@ fill_desc <- function(
   desc <- desc::description$new(
     file = path(path, "DESCRIPTION")
   )
-  desc$set(
-    "Authors@R", 
-    sprintf(
-      "person('%s', '%s', email = '%s', role = c('cre', 'aut'))", 
-      author_first_name, 
-      author_last_name,
-      author_email
+  
+   if(!is.null(author_orcid) & !is.character(author_orcid)){
+    
+    stop("ORCID ID must be provided as a character object")
+    
+  }
+
+  
+  if(is.null(author_orcid)){
+    
+    desc$set(
+      "Authors@R", 
+      sprintf(
+        "person('%s', '%s', email = '%s', role = c('cre', 'aut'))", 
+        author_first_name, 
+        author_last_name,
+        author_email
+      )
     )
-  )
+    
+  } else {
+    
+    desc$set(
+      "Authors@R", 
+      sprintf(
+        "person('%s', '%s', email = '%s', role = c('cre', 'aut'), comment = c(ORCID = '%s'))", 
+        author_first_name, 
+        author_last_name,
+        author_email,
+        author_orcid
+      )
+    )
+  } 
   desc$del(
     keys = "Maintainer"
   )
   desc$set_version(
     version = "0.0.0.9000"
   )
+  set_golem_version(
+    version = "0.0.0.9000", 
+    path = path
+  )
   desc$set(
     Package = pkg_name
   )
+  change_app_config_name(
+    name = pkg_name,
+    path = pkg
+  )
+  set_golem_name(pkg_name)
+  
   desc$set(
     Title = pkg_title
   )
@@ -79,6 +118,11 @@ fill_desc <- function(
     "DESCRIPTION file modified", 
     bullet = "tick", 
     bullet_col = "green"
+  )
+  return(
+    invisible(
+      desc
+    )
   )
 }
 

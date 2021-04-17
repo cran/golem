@@ -4,9 +4,18 @@
 \alias{bundle_resources}
 \title{Automatically serve golem external resources}
 \usage{
-bundle_resources(path, app_title, name = "golem_resources",
-  version = "0.0.1", meta = NULL, head = NULL, attachment = NULL,
-  package = NULL, all_files = TRUE)
+bundle_resources(
+  path,
+  app_title,
+  name = "golem_resources",
+  version = "0.0.1",
+  meta = NULL,
+  head = NULL,
+  attachment = NULL,
+  package = NULL,
+  all_files = TRUE,
+  app_builder = "golem"
+)
 }
 \arguments{
 \item{path}{The path to the folder where the external files are located.}
@@ -26,16 +35,26 @@ Details.}
 
 \item{package}{An R package name to indicate where to find the \code{src}
 directory when \code{src} is a relative path (see
-\code{\link{resolveDependencies}}).}
+\code{\link[htmltools]{resolveDependencies}}).}
 
 \item{all_files}{Whether all files under the \code{src} directory are
 dependency files. If \code{FALSE}, only the files specified in
 \code{script}, \code{stylesheet}, and \code{attachment} are treated as
 dependency files.}
+
+\item{app_builder}{The name of the app builder to add as a meta tag.
+Turn to NULL if you don't want this meta tag to be included.}
+}
+\value{
+an htmlDependency
 }
 \description{
 This function is a wrapper around \code{htmltools::htmlDependency} that
 automatically bundles the CSS and JavaScript files in \code{inst/app/www}
 and which are created by \code{golem::add_css_file()} , \code{golem::add_js_file()}
 and \code{golem::add_js_handler()}.
+}
+\details{
+This function also preload \code{\link[=activate_js]{activate_js()}} which allows to
+use preconfigured JavaScript functions via \code{\link[=invoke_js]{invoke_js()}}.
 }

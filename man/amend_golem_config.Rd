@@ -4,8 +4,13 @@
 \alias{amend_golem_config}
 \title{Amend golem config file}
 \usage{
-amend_golem_config(key, value, config = "default",
-  pkg = get_golem_wd(), talkative = TRUE)
+amend_golem_config(
+  key,
+  value,
+  config = "default",
+  pkg = get_golem_wd(),
+  talkative = TRUE
+)
 }
 \arguments{
 \item{key}{key of the value to add in \code{config}}
@@ -13,12 +18,15 @@ amend_golem_config(key, value, config = "default",
 \item{value}{Name of value (\code{NULL} to read all values)}
 
 \item{config}{Name of configuration to read from. Defaults to
-the value of the \code{R_CONFIG_NAME} environment variable
+the value of the \code{R_CONFIG_ACTIVE} environment variable
 ("default" if the variable does not exist).}
 
 \item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{talkative}{Should the messages be printed to the console?}
+}
+\value{
+Used for side effects.
 }
 \description{
 Amend golem config file

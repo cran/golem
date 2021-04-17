@@ -16,7 +16,7 @@
 #' + `get_golem_name()`
 #' + `get_golem_version()`
 #' 
-#' @param golem_name Name of the current golem.
+#' @param golem_name Name of the current golem. 
 #' @param golem_version Version of the current golem.
 #' @param golem_wd Working directory of the current golem package.
 #' @param app_prod Is the `{golem}` in prod mode?
@@ -33,6 +33,9 @@
 #' @importFrom attempt stop_if_not
 #' @importFrom yaml read_yaml write_yaml
 #' @importFrom usethis proj_set
+#' 
+#' @return Used for side-effects for the setters, and values from the 
+#'     config in the getters.
 set_golem_options <- function(
   golem_name = pkgload::pkg_name(), 
   golem_version = pkgload::pkg_version(), 
@@ -41,6 +44,11 @@ set_golem_options <- function(
   talkative = TRUE
 ){
   
+  change_app_config_name(
+    name = golem_name,
+    path = golem_wd
+  )
+  
   cat_if_talk <- function(..., fun = cat_green_tick){
     if (talkative){
       fun(...)
@@ -48,7 +56,7 @@ set_golem_options <- function(
   }
   
   conf_path <- get_current_config(golem_wd, set_options = FALSE)
-   
+  
   stop_if(
     conf_path, 
     is.null, 
@@ -80,6 +88,7 @@ set_golem_options <- function(
     "You can change golem working directory with set_golem_wd('path/to/wd')", 
     fun = cat_line
   )
+  
   conf$dev$golem_wd <- path
   
   # Setting name of the golem
@@ -197,11 +206,31 @@ set_golem_name <- function(
   talkative = TRUE
 ){
   path <- path_abs(path)
+  # Changing in YAML
   set_golem_things(
     "golem_name", 
     name, 
     path, 
     talkative = talkative
+  )
+  # Changing in app-config.R
+  change_app_config_name(
+    name = name,
+    path = path
+  )
+  
+  # Changing in DESCRIPTION
+  desc <- desc::description$new(
+    file = fs::path(
+      path, 
+      "DESCRIPTION"
+    )
+  )
+  desc$set(
+    Package = name
+  )
+  desc$write(
+    file = "DESCRIPTION"
   )
   
   invisible(name)
@@ -222,6 +251,13 @@ set_golem_version <- function(
     as.character(version), 
     path, 
     talkative = talkative
+  )
+  desc <- desc::description$new(file = fs::path(path, "DESCRIPTION"))
+  desc$set_version(
+    version = version
+  )
+  desc$write(
+    file = "DESCRIPTION"
   )
   
   invisible(version)
@@ -271,12 +307,16 @@ get_golem_name <- function(
   use_parent = TRUE, 
   path = pkgload::pkg_path()
 ){
-  get_golem_things(
+  nm <- get_golem_things(
     value = "golem_name", 
     config = config, 
     use_parent = use_parent, 
     path = path
   )
+  if (is.null(nm)){
+    nm <- pkgload::pkg_name()
+  }
+  nm
 }
 
 #' @export

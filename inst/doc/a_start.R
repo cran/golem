@@ -47,7 +47,7 @@ w <- lapply(
 
 ## ----eval = FALSE-------------------------------------------------------------
 #  ## See ?usethis for more information
-#  usethis::use_mit_license( name = "Golem User" )  # You can set another license here
+#  usethis::use_mit_license( "Golem User" )  # You can set another license here
 #  usethis::use_readme_rmd( open = FALSE )
 #  usethis::use_code_of_conduct()
 #  usethis::use_lifecycle_badge( "Experimental" )
@@ -68,6 +68,9 @@ w <- lapply(
 ## -----------------------------------------------------------------------------
 #  golem::use_utils_ui()
 #  golem::use_utils_server()
+
+## -----------------------------------------------------------------------------
+#  golem::run_dev()
 
 ## -----------------------------------------------------------------------------
 #  rstudioapi::navigateToFile("dev/02_dev.R")

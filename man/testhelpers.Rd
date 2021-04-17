@@ -4,6 +4,7 @@
 \alias{expect_shinytag}
 \alias{expect_shinytaglist}
 \alias{expect_html_equal}
+\alias{expect_running}
 \title{Test helpers}
 \usage{
 expect_shinytag(object)
@@ -11,6 +12,8 @@ expect_shinytag(object)
 expect_shinytaglist(object)
 
 expect_html_equal(ui, html)
+
+expect_running(sleep)
 }
 \arguments{
 \item{object}{the object to test}
@@ -18,9 +21,11 @@ expect_html_equal(ui, html)
 \item{ui}{output of an UI function}
 
 \item{html}{html file to compare to ui}
+
+\item{sleep}{number of seconds}
 }
 \value{
-A testthat result
+A testthat result.
 }
 \description{
 These functions are designed to be used inside the tests

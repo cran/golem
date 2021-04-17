@@ -10,25 +10,41 @@
 \alias{get_golem_version}
 \title{\code{{golem}} options}
 \usage{
-set_golem_options(golem_name = pkgload::pkg_name(),
+set_golem_options(
+  golem_name = pkgload::pkg_name(),
   golem_version = pkgload::pkg_version(),
-  golem_wd = pkgload::pkg_path(), app_prod = FALSE, talkative = TRUE)
+  golem_wd = pkgload::pkg_path(),
+  app_prod = FALSE,
+  talkative = TRUE
+)
 
 set_golem_wd(path = pkgload::pkg_path(), talkative = TRUE)
 
-set_golem_name(name = pkgload::pkg_name(), path = pkgload::pkg_path(),
-  talkative = TRUE)
+set_golem_name(
+  name = pkgload::pkg_name(),
+  path = pkgload::pkg_path(),
+  talkative = TRUE
+)
 
-set_golem_version(version = pkgload::pkg_version(),
-  path = pkgload::pkg_path(), talkative = TRUE)
+set_golem_version(
+  version = pkgload::pkg_version(),
+  path = pkgload::pkg_path(),
+  talkative = TRUE
+)
 
 get_golem_wd(use_parent = TRUE, path = pkgload::pkg_path())
 
-get_golem_name(config = Sys.getenv("R_CONFIG_ACTIVE", "default"),
-  use_parent = TRUE, path = pkgload::pkg_path())
+get_golem_name(
+  config = Sys.getenv("R_CONFIG_ACTIVE", "default"),
+  use_parent = TRUE,
+  path = pkgload::pkg_path()
+)
 
-get_golem_version(config = Sys.getenv("R_CONFIG_ACTIVE", "default"),
-  use_parent = TRUE, path = pkgload::pkg_path())
+get_golem_version(
+  config = Sys.getenv("R_CONFIG_ACTIVE", "default"),
+  use_parent = TRUE,
+  path = pkgload::pkg_path()
+)
 }
 \arguments{
 \item{golem_name}{Name of the current golem.}
@@ -52,8 +68,12 @@ Note that it will be passed to \code{normalizePath}.}
 configuration files if the specified config file isn't found.}
 
 \item{config}{Name of configuration to read from. Defaults to
-the value of the \code{R_CONFIG_NAME} environment variable
+the value of the \code{R_CONFIG_ACTIVE} environment variable
 ("default" if the variable does not exist).}
+}
+\value{
+Used for side-effects for the setters, and values from the
+config in the getters.
 }
 \description{
 Set and get a series of options to be used with \code{{golem}}.

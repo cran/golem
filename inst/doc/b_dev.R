@@ -40,8 +40,8 @@ knitr::opts_chunk$set(
 #  golem::add_css_file("custom")
 
 ## -----------------------------------------------------------------------------
-#  golem::use_external_css_file("url")
-#  golem::use_external_js_file("url")
+#  golem::use_external_css_file(url = "url", name = "your_provided_name")
+#  golem::use_external_js_file(url = "url", name = "your_provided_name")
 
 ## -----------------------------------------------------------------------------
 #  tags$img(src = "www/my.png")

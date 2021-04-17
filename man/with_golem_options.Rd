@@ -4,20 +4,21 @@
 \alias{with_golem_options}
 \title{Add Golem options to a Shiny App}
 \usage{
-with_golem_options(app, golem_opts)
+with_golem_options(app, golem_opts, print = FALSE)
 }
 \arguments{
 \item{app}{the app object.}
 
 \item{golem_opts}{A list of Options to be added to the app}
+
+\item{print}{Whether or not to print the app. Default is to \code{FALSE}, which
+should be what you need 99.99\% of the time In case you need to
+actively print the app object, you can set it to \code{TRUE}.}
 }
 \value{
 a shiny.appObj object
 }
 \description{
-Add Golem options to a Shiny App
-}
-\note{
 You'll probably never have to write this function
 as it is included in the golem template created on
 launch.
