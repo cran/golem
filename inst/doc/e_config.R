@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
 )
 library(golem)
 x <- file.path(
-  tempdir(), 
+  tempdir(),
   "golex"
 )
 unlink(x, TRUE, TRUE)
@@ -17,7 +17,8 @@ knitr::opts_knit$set(root.dir = x)
 library(golem)
 
 ## ----echo = FALSE, comment= ""------------------------------------------------
-glue::as_glue(
+cat(
+  sep = "\n",
   readLines(
     "inst/golem-config.yml"
   )
@@ -38,17 +39,18 @@ get_golem_version()
 
 ## -----------------------------------------------------------------------------
 amend_golem_config(
-  key = "where", 
+  key = "where",
   value = "indev"
 )
 amend_golem_config(
-  key = "where", 
-  value = "inprod", 
+  key = "where",
+  value = "inprod",
   config = "production"
 )
 
 ## ----echo = FALSE, comment= ""------------------------------------------------
-glue::as_glue(
+cat(
+  sep = "\n",
   readLines(
     file.path(x, "inst/golem-config.yml")
   )
@@ -60,7 +62,7 @@ get_golem_config(
   "where"
 )
 get_golem_config(
-  "where", 
+  "where",
   config = "production"
 )
 

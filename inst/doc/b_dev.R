@@ -1,26 +1,24 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", 
+  comment = "#>",
   eval = FALSE
 )
 
 ## -----------------------------------------------------------------------------
-#  usethis::use_package("pkg")
+#  attachment::att_amend_desc()
 
 ## -----------------------------------------------------------------------------
-#  golem::add_module( name = "my_first_module" ) # Name of the module
+#  golem::add_module(name = "my_first_module") # Name of the module
 
 ## -----------------------------------------------------------------------------
 #  # mod_UI
-#  mod_my_first_module_ui <- function(id){
+#  mod_my_first_module_ui <- function(id) {
 #    ns <- NS(id)
-#    tagList(
-#  
-#    )
+#    tagList()
 #  }
 #  
-#  mod_my_first_module_server <- function(input, output, session){
+#  mod_my_first_module_server <- function(input, output, session) {
 #    ns <- session$ns
 #  }
 #  
@@ -31,13 +29,14 @@ knitr::opts_chunk$set(
 #  # callModule(mod_my_first_module_server, "my_first_module_1")
 
 ## -----------------------------------------------------------------------------
-#  golem::add_fct( "helpers" )
-#  golem::add_utils( "helpers" )
+#  golem::add_fct("helpers")
+#  golem::add_utils("helpers")
 
 ## -----------------------------------------------------------------------------
 #  golem::add_js_file("script")
 #  golem::add_js_handler("script")
 #  golem::add_css_file("custom")
+#  golem::add_sass_file("custom")
 
 ## -----------------------------------------------------------------------------
 #  golem::use_external_css_file(url = "url", name = "your_provided_name")
@@ -50,7 +49,7 @@ knitr::opts_chunk$set(
 #  usethis::use_data_raw()
 
 ## -----------------------------------------------------------------------------
-#  usethis::use_test( "app" )
+#  usethis::use_test("app")
 
 ## -----------------------------------------------------------------------------
 #  usethis::use_vignette("shinyexample")
@@ -62,14 +61,14 @@ knitr::opts_chunk$set(
 #  usethis::use_coverage()
 
 ## ----eval = TRUE--------------------------------------------------------------
-options( "golem.app.prod" = TRUE)
+options("golem.app.prod" = TRUE)
 golem::cat_dev("hey\n")
-options( "golem.app.prod" = FALSE)
+options("golem.app.prod" = FALSE)
 golem::cat_dev("hey\n")
 
 ## ----eval = TRUE--------------------------------------------------------------
 log_dev <- golem::make_dev(log)
 log_dev(10)
-options( "golem.app.prod" = TRUE)
+options("golem.app.prod" = TRUE)
 log_dev(10)
 
