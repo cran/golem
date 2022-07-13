@@ -12,10 +12,23 @@
 
 <meta name="author" content="Colin Fay" />
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-07-13" />
 
 <title>Day to Day Dev with {golem}</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -27,6 +40,7 @@
     </style>
 
 
+
 <style type="text/css">
   code {
     white-space: pre;
@@ -36,26 +50,28 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -64,9 +80,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -318,7 +334,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Day to Day Dev with {golem}</h1>
 <h4 class="author">Colin Fay</h4>
-<h4 class="date">2022-03-04</h4>
+<h4 class="date">2022-07-13</h4>
 
 
 
@@ -329,113 +345,158 @@ $(document).ready(function () {
 </script>
 <div id="day-to-day-development-with-golem" class="section level2">
 <h2>Day to day development with <code>{golem}</code></h2>
-<p>Now that you’re all set with your project init, time to move to development!</p>
-<p>App development should happen through the <code>dev/02_dev.R</code> file, which contains common commands for developing.</p>
+<p>Now that you’re all set with your project init, time to move to
+development!</p>
+<p>App development should happen through the <code>dev/02_dev.R</code>
+file, which contains common commands for developing.</p>
 </div>
 <div id="launching-the-app" class="section level2">
 <h2>Launching the app</h2>
-<p>To run the app, go to the <code>dev/run_dev.R</code> file, and run the all thing.</p>
+<p>To run the app, go to the <code>dev/run_dev.R</code> file, and run
+the all thing.</p>
 </div>
 <div id="dev02_dev.r" class="section level2">
 <h2><code>dev/02_dev.R</code></h2>
 <div id="add-dependencies" class="section level3">
 <h3>Add dependencies</h3>
-<p>You can use <code>attachment::att_amend_desc()</code> to parse the code in your <code>.R</code> files, detect <code>@import</code> <code>@importFrom</code> and <code>::</code>, and fill your <code>DESCRIPTION</code> accordingly.</p>
-<p>Note that the <code>{attachment}</code> package should be installed on your machine.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">attachment<span class="op">::</span><span class="kw">att_amend_desc</span>()</a></code></pre></div>
-<p>About <a href="https://r-pkgs.org/namespace.html">package dependencies</a>.</p>
+<p>You can use <code>attachment::att_amend_desc()</code> to parse the
+code in your <code>.R</code> files, detect <code>@import</code>
+<code>@importFrom</code> and <code>::</code>, and fill your
+<code>DESCRIPTION</code> accordingly.</p>
+<p>Note that the <code>{attachment}</code> package should be installed
+on your machine.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>attachment<span class="sc">::</span><span class="fu">att_amend_desc</span>()</span></code></pre></div>
+<p>About <a href="https://r-pkgs.org/Metadata.html#sec-namespace">package
+dependencies</a>.</p>
 </div>
 <div id="add-modules" class="section level3">
 <h3>Add modules</h3>
-<p>The <code>golem::add_module()</code> functions creates a module in the <code>R</code> folder. The file and the modules will be named after the <code>name</code> parameter, by adding <code>mod_</code> to the R file, and <code>mod_*_ui</code> and <code>mod_*_server</code> to the UI and server functions.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">golem<span class="op">::</span><span class="kw">add_module</span>(<span class="dt">name =</span> <span class="st">&quot;my_first_module&quot;</span>) <span class="co"># Name of the module</span></a></code></pre></div>
+<p>The <code>golem::add_module()</code> functions creates a module in
+the <code>R</code> folder. The file and the modules will be named after
+the <code>name</code> parameter, by adding <code>mod_</code> to the R
+file, and <code>mod_*_ui</code> and <code>mod_*_server</code> to the UI
+and server functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_module</span>(<span class="at">name =</span> <span class="st">&quot;my_first_module&quot;</span>) <span class="co"># Name of the module</span></span></code></pre></div>
 <p>The new file will contain:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># mod_UI</span></a>
-<a class="sourceLine" id="cb3-2" title="2">mod_my_first_module_ui &lt;-<span class="st"> </span><span class="cf">function</span>(id) {</a>
-<a class="sourceLine" id="cb3-3" title="3">  ns &lt;-<span class="st"> </span><span class="kw">NS</span>(id)</a>
-<a class="sourceLine" id="cb3-4" title="4">  <span class="kw">tagList</span>()</a>
-<a class="sourceLine" id="cb3-5" title="5">}</a>
-<a class="sourceLine" id="cb3-6" title="6"></a>
-<a class="sourceLine" id="cb3-7" title="7">mod_my_first_module_server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb3-8" title="8">  ns &lt;-<span class="st"> </span>session<span class="op">$</span>ns</a>
-<a class="sourceLine" id="cb3-9" title="9">}</a>
-<a class="sourceLine" id="cb3-10" title="10"></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">## To be copied in the UI</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co"># mod_my_first_module_ui(&quot;my_first_module_1&quot;)</span></a>
-<a class="sourceLine" id="cb3-13" title="13"></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">## To be copied in the server</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co"># callModule(mod_my_first_module_server, &quot;my_first_module_1&quot;)</span></a></code></pre></div>
-<p>At the end of the file, you will find a piece of code that has to be copied and pasted inside your UI and server functions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mod_UI</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mod_my_first_module_ui <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ns <span class="ot">&lt;-</span> <span class="fu">NS</span>(id)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tagList</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>mod_my_first_module_server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ns <span class="ot">&lt;-</span> session<span class="sc">$</span>ns</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## To be copied in the UI</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mod_my_first_module_ui(&quot;my_first_module_1&quot;)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="do">## To be copied in the server</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># callModule(mod_my_first_module_server, &quot;my_first_module_1&quot;)</span></span></code></pre></div>
+<p>At the end of the file, you will find a piece of code that has to be
+copied and pasted inside your UI and server functions.</p>
 </div>
 </div>
 <div id="add-function-files" class="section level2">
 <h2>Add function files</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">golem<span class="op">::</span><span class="kw">add_fct</span>(<span class="st">&quot;helpers&quot;</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">golem<span class="op">::</span><span class="kw">add_utils</span>(<span class="st">&quot;helpers&quot;</span>)</a></code></pre></div>
-<p>These two function create <code>R/fct_helpers.R</code> and <code>R/utils_helpers.R</code>, two file you can use to add business logic functions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_fct</span>(<span class="st">&quot;helpers&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_utils</span>(<span class="st">&quot;helpers&quot;</span>)</span></code></pre></div>
+<p>These two function create <code>R/fct_helpers.R</code> and
+<code>R/utils_helpers.R</code>, two file you can use to add business
+logic functions.</p>
 <div id="add-external-files" class="section level3">
 <h3>Add external files</h3>
-<p>These functions create external dependencies (JavaScript, CSS and Sass). <code>add_js_file()</code> creates a simple JavaScript file, while <code>add_js_handler()</code> adds a file with a skeleton for shiny custom handlers.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">golem<span class="op">::</span><span class="kw">add_js_file</span>(<span class="st">&quot;script&quot;</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2">golem<span class="op">::</span><span class="kw">add_js_handler</span>(<span class="st">&quot;script&quot;</span>)</a>
-<a class="sourceLine" id="cb5-3" title="3">golem<span class="op">::</span><span class="kw">add_css_file</span>(<span class="st">&quot;custom&quot;</span>)</a>
-<a class="sourceLine" id="cb5-4" title="4">golem<span class="op">::</span><span class="kw">add_sass_file</span>(<span class="st">&quot;custom&quot;</span>)</a></code></pre></div>
-<p>Note: While the general philosophy of <code>{golem}</code> is being based on the idea that you’re building a package, these functions can be used outside of a <code>{golem}</code> project.</p>
-<p>Note that you can also download external CSS and JavaScript files with:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">golem<span class="op">::</span><span class="kw">use_external_css_file</span>(<span class="dt">url =</span> <span class="st">&quot;url&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;your_provided_name&quot;</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">golem<span class="op">::</span><span class="kw">use_external_js_file</span>(<span class="dt">url =</span> <span class="st">&quot;url&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;your_provided_name&quot;</span>)</a></code></pre></div>
-<p>The above has the effect of downloading the file at the specified url and giving it a provided name. If the intent is to use a CDN hosted CSS/JS file then manually add the tag - <code>tags$script(src = &quot;source_of_ur_css/js&quot;)</code> in the function <code>golem_add_external_resources</code> in file <code>app-ui.R</code>. The tag can be added inside the <code>tags$head(...)</code> if the intent is to load the js/css file in the <code>&lt;head&gt;</code> of the document or outside it if it is intended in the <code>&lt;body&gt;</code>.</p>
+<p>These functions create external dependencies (JavaScript, CSS and
+Sass). <code>add_js_file()</code> creates a simple JavaScript file,
+while <code>add_js_handler()</code> adds a file with a skeleton for
+shiny custom handlers.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_js_file</span>(<span class="st">&quot;script&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_js_handler</span>(<span class="st">&quot;script&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_css_file</span>(<span class="st">&quot;custom&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_sass_file</span>(<span class="st">&quot;custom&quot;</span>)</span></code></pre></div>
+<p>Note: While the general philosophy of <code>{golem}</code> is being
+based on the idea that you’re building a package, these functions can be
+used outside of a <code>{golem}</code> project.</p>
+<p>Note that you can also download external CSS and JavaScript files
+with:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">use_external_css_file</span>(<span class="at">url =</span> <span class="st">&quot;url&quot;</span>, <span class="at">name =</span> <span class="st">&quot;your_provided_name&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">use_external_js_file</span>(<span class="at">url =</span> <span class="st">&quot;url&quot;</span>, <span class="at">name =</span> <span class="st">&quot;your_provided_name&quot;</span>)</span></code></pre></div>
+<p>The above has the effect of downloading the file at the specified url
+and giving it a provided name. If the intent is to use a CDN hosted
+CSS/JS file then manually add the tag -
+<code>tags$script(src = &quot;source_of_ur_css/js&quot;)</code> in the function
+<code>golem_add_external_resources</code> in file <code>app-ui.R</code>.
+The tag can be added inside the <code>tags$head(...)</code> if the
+intent is to load the js/css file in the <code>&lt;head&gt;</code> of
+the document or outside it if it is intended in the
+<code>&lt;body&gt;</code>.</p>
 </div>
 <div id="adding-these-external-resources-to-your-app" class="section level3">
 <h3>Adding these external resources to your app</h3>
 <p>You can add any external resource into <code>inst/app/www</code>.</p>
-<p>JavaScript and CSS are automatically linked in the <code>golem_add_external_resources()</code> function. If you add other resources (example images), you can link them in the app with the <code>www</code> prefix:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">tags<span class="op">$</span><span class="kw">img</span>(<span class="dt">src =</span> <span class="st">&quot;www/my.png&quot;</span>)</a></code></pre></div>
-<p>You can also list here the use of other packages, for example <code>useShinyalert()</code> from the <code>{shinyalert}</code> package.</p>
+<p>JavaScript and CSS are automatically linked in the
+<code>golem_add_external_resources()</code> function. If you add other
+resources (example images), you can link them in the app with the
+<code>www</code> prefix:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> <span class="st">&quot;www/my.png&quot;</span>)</span></code></pre></div>
+<p>You can also list here the use of other packages, for example
+<code>useShinyalert()</code> from the <code>{shinyalert}</code>
+package.</p>
 </div>
 <div id="add-a-data-raw-folder" class="section level3">
 <h3>Add a data-raw folder</h3>
 <p>If you have data in your package:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">usethis<span class="op">::</span><span class="kw">use_data_raw</span>()</a></code></pre></div>
-<p>About <a href="https://r-pkgs.org/data.html">data in a package</a>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_data_raw</span>()</span></code></pre></div>
+<p>About <a href="https://r-pkgs.org/data.html">data in a
+package</a>.</p>
 </div>
 <div id="add-tests" class="section level3">
 <h3>Add tests</h3>
 <p>Add more tests to your application:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">usethis<span class="op">::</span><span class="kw">use_test</span>(<span class="st">&quot;app&quot;</span>)</a></code></pre></div>
-<p>About <a href="https://r-pkgs.org/tests.html">testing a package</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_test</span>(<span class="st">&quot;app&quot;</span>)</span></code></pre></div>
+<p>About <a href="https://r-pkgs.org/testing-basics.html">testing a
+package</a>.</p>
 </div>
 </div>
 <div id="documentation" class="section level2">
 <h2>Documentation</h2>
 <div id="vignette" class="section level3">
 <h3>Vignette</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">usethis<span class="op">::</span><span class="kw">use_vignette</span>(<span class="st">&quot;shinyexample&quot;</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2">devtools<span class="op">::</span><span class="kw">build_vignettes</span>()</a></code></pre></div>
-<p>About <a href="https://r-pkgs.org/vignettes.html">package Vignette</a>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_vignette</span>(<span class="st">&quot;shinyexample&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">build_vignettes</span>()</span></code></pre></div>
+<p>About <a href="https://r-pkgs.org/vignettes.html">package
+Vignette</a>.</p>
 </div>
 <div id="code-coverage" class="section level3">
 <h3>Code coverage</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">usethis<span class="op">::</span><span class="kw">use_travis</span>()</a>
-<a class="sourceLine" id="cb11-2" title="2">usethis<span class="op">::</span><span class="kw">use_appveyor</span>()</a>
-<a class="sourceLine" id="cb11-3" title="3">usethis<span class="op">::</span><span class="kw">use_coverage</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_travis</span>()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_appveyor</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_coverage</span>()</span></code></pre></div>
 </div>
 </div>
 <div id="using-golem-dev-functions" class="section level2">
 <h2>Using <code>{golem}</code> dev functions</h2>
-<p>There’s a series of tools to make your app behave differently whether it’s in dev or prod mode. Notably, the <code>app_prod()</code> and <code>app_dev()</code> function tests for <code>options( &quot;golem.app.prod&quot;)</code> (or return TRUE if this option doesn’t exist).</p>
-<p>Setting this options at the beginning of your dev process allows to make your app behave in a specific way when you are in dev mode. For example, printing message to the console with <code>cat_dev()</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> =<span class="st"> </span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb12-2" title="2">golem<span class="op">::</span><span class="kw">cat_dev</span>(<span class="st">&quot;hey</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="kw">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> =<span class="st"> </span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb12-4" title="4">golem<span class="op">::</span><span class="kw">cat_dev</span>(<span class="st">&quot;hey</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; hey</span></a></code></pre></div>
-<p>You can then make any function being “dev-dependent” with the <code>make_dev()</code> function:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">log_dev &lt;-<span class="st"> </span>golem<span class="op">::</span><span class="kw">make_dev</span>(log)</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">log_dev</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt; [1] 2.302585</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="kw">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> =<span class="st"> </span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="kw">log_dev</span>(<span class="dv">10</span>)</a></code></pre></div>
+<p>There’s a series of tools to make your app behave differently whether
+it’s in dev or prod mode. Notably, the <code>app_prod()</code> and
+<code>app_dev()</code> function tests for
+<code>options( &quot;golem.app.prod&quot;)</code> (or return TRUE if this option
+doesn’t exist).</p>
+<p>Setting this options at the beginning of your dev process allows to
+make your app behave in a specific way when you are in dev mode. For
+example, printing message to the console with
+<code>cat_dev()</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">cat_dev</span>(<span class="st">&quot;hey</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> <span class="ot">=</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">cat_dev</span>(<span class="st">&quot;hey</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hey</span></span></code></pre></div>
+<p>You can then make any function being “dev-dependent” with the
+<code>make_dev()</code> function:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>log_dev <span class="ot">&lt;-</span> golem<span class="sc">::</span><span class="fu">make_dev</span>(log)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">log_dev</span>(<span class="dv">10</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.302585</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="st">&quot;golem.app.prod&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">log_dev</span>(<span class="dv">10</span>)</span></code></pre></div>
 </div>
 
 

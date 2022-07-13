@@ -14,6 +14,19 @@
 
 <title>Using golem config</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -25,6 +38,7 @@
     </style>
 
 
+
 <style type="text/css">
   code {
     white-space: pre;
@@ -34,26 +48,28 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -62,9 +78,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -318,12 +334,18 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(golem)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(golem)</span></code></pre></div>
 <div id="about-instgolem-config.yml" class="section level2">
 <h2>About <code>inst/golem-config.yml</code></h2>
-<p>When you start a new <code>{golem}</code> application, you’ll find a file called <code>golem-config.yml</code> in the <code>inst/</code> folder.</p>
-<p>By default, this file contains the name of your app, its version, and the default working directory (which is the root of your package).</p>
-<p>This config file is based on the <a href="https://github.com/rstudio/config"><code>{config}</code></a> format, which allows you to create configuration files for different application contexts. Please refer to this package documentation for more information.</p>
+<p>When you start a new <code>{golem}</code> application, you’ll find a
+file called <code>golem-config.yml</code> in the <code>inst/</code>
+folder.</p>
+<p>By default, this file contains the name of your app, its version, and
+the default working directory (which is the root of your package).</p>
+<p>This config file is based on the <a href="https://github.com/rstudio/config"><code>{config}</code></a>
+format, which allows you to create configuration files for different
+application contexts. Please refer to this package documentation for
+more information.</p>
 </div>
 <div id="setting-golem-config" class="section level2">
 <h2>Setting <code>golem-config</code></h2>
@@ -337,45 +359,56 @@ production:
 dev:
   golem_wd: !expr here::here()</code></pre>
 <ul>
-<li>default/golem_name, default/golem_version, default/app_prod are usable across the whole life of your golem app: while developing, and also when in production.</li>
-<li>production/app_prod might be used for adding elements that are to be used once the app is in production.</li>
-<li>dev/golem_wd is in a <code>dev</code> config because the only moment you might reliably use this config is while developing your app. Use the <code>app_sys()</code> function if you want to rely on the package path once the app is deployed.</li>
+<li>default/golem_name, default/golem_version, default/app_prod are
+usable across the whole life of your golem app: while developing, and
+also when in production.</li>
+<li>production/app_prod might be used for adding elements that are to be
+used once the app is in production.</li>
+<li>dev/golem_wd is in a <code>dev</code> config because the only moment
+you might reliably use this config is while developing your app. Use the
+<code>app_sys()</code> function if you want to rely on the package path
+once the app is deployed.</li>
 </ul>
-<p>The good news is that if you don’t want/need to use <code>{config}</code>, you can safely ignore this file, <strong>just leave it where it is: it is used internally by the <code>{golem}</code> functions</strong>.</p>
+<p>The good news is that if you don’t want/need to use
+<code>{config}</code>, you can safely ignore this file, <strong>just
+leave it where it is: it is used internally by the <code>{golem}</code>
+functions</strong>.</p>
 <p>These options are globally set with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">set_golem_options</span>()</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; ── Setting {golem} options in `golem-config.yml` ───────────────────────────────</span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; ✔ Setting `golem_wd` to here::here()</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; You can change golem working directory with set_golem_wd(&#39;path/to/wd&#39;)</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; ✔ Setting `golem_name` to golex</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; ✔ Setting `golem_version` to 0.0.0.9000</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; ✔ Setting `app_prod` to FALSE</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; ── Setting {usethis} project as `golem_wd` ─────────────────────────────────────</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set_golem_options</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Setting {golem} options in `golem-config.yml` ───────────────────────────────</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Setting `golem_wd` to here::here()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; You can change golem working directory with set_golem_wd(&#39;path/to/wd&#39;)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Setting `golem_name` to golex</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Setting `golem_version` to 0.0.0.9000</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ Setting `app_prod` to FALSE</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Setting {usethis} project as `golem_wd` ─────────────────────────────────────</span></span></code></pre></div>
 <p>The functions reading the options in this config file are:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">get_golem_name</span>()</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; [1] &quot;golex&quot;</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw">get_golem_wd</span>()</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; [1] &quot;/private/var/folders/5z/rm2h62lj45d332kfpj28c8zm0000gn/T/RtmptEm0We/golex&quot;</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="kw">get_golem_version</span>()</a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; [1] &quot;0.0.0.9000&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_name</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;golex&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_wd</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/private/var/folders/5z/rm2h62lj45d332kfpj28c8zm0000gn/T/Rtmp7zLI2B/golex&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_version</span>()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.0.0.9000&quot;</span></span></code></pre></div>
 <p>You can set these with:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">set_golem_name</span>(<span class="st">&quot;this&quot;</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">set_golem_wd</span>(<span class="st">&quot;.&quot;</span>)</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="kw">set_golem_version</span>(<span class="st">&quot;0.0.1&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set_golem_name</span>(<span class="st">&quot;this&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_golem_wd</span>(<span class="st">&quot;.&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set_golem_version</span>(<span class="st">&quot;0.0.1&quot;</span>)</span></code></pre></div>
 </div>
 <div id="using-golem-config" class="section level2">
 <h2>Using <code>golem-config</code></h2>
-<p>If you’re already familiar with the <code>{config}</code> package, you can use this file just as any config file.</p>
-<p><code>{golem}</code> comes with an <code>amend_golem_config()</code> function to add elements to it.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">amend_golem_config</span>(</a>
-<a class="sourceLine" id="cb6-2" title="2">  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>,</a>
-<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">value =</span> <span class="st">&quot;indev&quot;</span></a>
-<a class="sourceLine" id="cb6-4" title="4">)</a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw">amend_golem_config</span>(</a>
-<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">key =</span> <span class="st">&quot;where&quot;</span>,</a>
-<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">value =</span> <span class="st">&quot;inprod&quot;</span>,</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></a>
-<a class="sourceLine" id="cb6-9" title="9">)</a></code></pre></div>
+<p>If you’re already familiar with the <code>{config}</code> package,
+you can use this file just as any config file.</p>
+<p><code>{golem}</code> comes with an <code>amend_golem_config()</code>
+function to add elements to it.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">amend_golem_config</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="st">&quot;where&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="st">&quot;indev&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">amend_golem_config</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">key =</span> <span class="st">&quot;where&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="st">&quot;inprod&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="st">&quot;production&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Will result in a <code>golem-config.yml</code> file as such:</p>
 <pre><code>default:
   golem_name: golex
@@ -390,37 +423,51 @@ dev:
 </div>
 <div id="app_config.r" class="section level2">
 <h2><code>app_config.R</code></h2>
-<p>In <code>R/app_config.R</code>, you’ll find a <code>get_golem_config()</code> function that allows you to retrieve config from this config file:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">pkgload<span class="op">::</span><span class="kw">load_all</span>()</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; ℹ Loading golex</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="kw">get_golem_config</span>(</a>
-<a class="sourceLine" id="cb8-4" title="4">  <span class="st">&quot;where&quot;</span></a>
-<a class="sourceLine" id="cb8-5" title="5">)</a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; [1] &quot;indev&quot;</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="kw">get_golem_config</span>(</a>
-<a class="sourceLine" id="cb8-8" title="8">  <span class="st">&quot;where&quot;</span>,</a>
-<a class="sourceLine" id="cb8-9" title="9">  <span class="dt">config =</span> <span class="st">&quot;production&quot;</span></a>
-<a class="sourceLine" id="cb8-10" title="10">)</a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; [1] &quot;inprod&quot;</span></a></code></pre></div>
+<p>In <code>R/app_config.R</code>, you’ll find a
+<code>get_golem_config()</code> function that allows you to retrieve
+config from this config file:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pkgload<span class="sc">::</span><span class="fu">load_all</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Loading golex</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_config</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;where&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;indev&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_config</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;where&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="st">&quot;production&quot;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;inprod&quot;</span></span></code></pre></div>
 <p>Or using the env var (default <code>{config}</code> behavior):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">Sys.setenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE&quot;</span> =<span class="st"> &quot;production&quot;</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">get_golem_config</span>(<span class="st">&quot;where&quot;</span>)</a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; [1] &quot;inprod&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE&quot;</span> <span class="ot">=</span> <span class="st">&quot;production&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_golem_config</span>(<span class="st">&quot;where&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;inprod&quot;</span></span></code></pre></div>
 </div>
 <div id="golem_config-vs-golem_options" class="section level2">
 <h2><code>golem_config</code> vs <code>golem_options</code></h2>
 <p>There is two ways to configure golem apps:</p>
 <ul>
-<li>The <code>golem_opts</code> in the <code>run_app()</code> function</li>
+<li>The <code>golem_opts</code> in the <code>run_app()</code>
+function</li>
 <li>The <code>golem-config.yml</code> file</li>
 </ul>
-<p>The big difference between these two is that the golem options from <code>run_app()</code> are meant to be configured during runtime: you’ll be doing <code>run_app(val = &quot;this&quot;)</code>, whereas the <code>golem-config</code> is meant to be used in the back-end, and will not be linked to the parameters passed to <code>run_app()</code> (even if this is technically possible, this is not the main objective),.</p>
-<p>It’s also linked to the <code>R_CONFIG_ACTIVE</code> environment variable, just as any <code>{config}</code> file.</p>
-<p>The idea is also that the <code>golem-config.yml</code> file is shareable across <code>{golem}</code> projects (<code>golem_opts</code> are application specific), and will be tracked by version control systems.</p>
+<p>The big difference between these two is that the golem options from
+<code>run_app()</code> are meant to be configured during runtime: you’ll
+be doing <code>run_app(val = &quot;this&quot;)</code>, whereas the
+<code>golem-config</code> is meant to be used in the back-end, and will
+not be linked to the parameters passed to <code>run_app()</code> (even
+if this is technically possible, this is not the main objective),.</p>
+<p>It’s also linked to the <code>R_CONFIG_ACTIVE</code> environment
+variable, just as any <code>{config}</code> file.</p>
+<p>The idea is also that the <code>golem-config.yml</code> file is
+shareable across <code>{golem}</code> projects (<code>golem_opts</code>
+are application specific), and will be tracked by version control
+systems.</p>
 </div>
 <div id="note-for-golem-0.2.0-users" class="section level2">
 <h2>Note for <code>{golem}</code> &lt; 0.2.0 users</h2>
-<p>If you’ve built an app with <code>{golem}</code> before the version 0.2.0, this config file doesn’t exist: you’ll be prompted to create it if you update a newer version of <code>{golem}</code>.</p>
+<p>If you’ve built an app with <code>{golem}</code> before the version
+0.2.0, this config file doesn’t exist: you’ll be prompted to create it
+if you update a newer version of <code>{golem}</code>.</p>
 </div>
 
 

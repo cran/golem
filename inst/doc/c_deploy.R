@@ -39,3 +39,29 @@ knitr::opts_chunk$set(
 #  # If you want to deploy to Heroku
 #  golem::add_dockerfile_heroku()
 
+## -----------------------------------------------------------------------------
+#  # If you want to deploy via a generic Dockerfile
+#  golem::add_dockerfile_with_renv(output_dir = "deploy")
+#  
+#  # If you want to deploy to ShinyProxy
+#  golem::add_dockerfile_with_renv_shinyproxy(output_dir = "deploy")
+#  
+
+## -----------------------------------------------------------------------------
+#  attachment::create_renv_for_dev(dev_pkg = c("renv", "devtools", "roxygen2",
+#    "usethis", "pkgload", "testthat", "remotes", "covr", "attachment",
+#    "pak", "dockerfiler","golem"))
+
+## -----------------------------------------------------------------------------
+#  renv::activate()
+
+## -----------------------------------------------------------------------------
+#  
+#  # If you want to deploy via a generic Dockerfile
+#  golem::add_dockerfile_with_renv(output_dir = "deploy",lockfile =  "renv.lock")
+#  
+#  # If you want to deploy to ShinyProxy
+#  golem::add_dockerfile_with_renv_shinyproxy(output_dir = "deploy",lockfile =  "renv.lock")
+#  
+#  
+
