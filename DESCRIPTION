@@ -1,6 +1,6 @@
 Package: golem
 Title: A Framework for Robust Shiny Applications
-Version: 0.3.3
+Version: 0.3.4
 Authors@R: 
     c(person(given = "Colin",
              family = "Fay",
@@ -53,14 +53,14 @@ Imports: attempt (>= 0.3.0), cli (>= 2.0.0), config, crayon, desc, fs,
 Suggests: rlang, covr, devtools, dockerfiler (>= 0.2.0), knitr,
         pkgbuild, pkgdown, processx, purrr, rcmdcheck, rmarkdown,
         rsconnect, spelling, stringr, testthat, tools, withr,
-        attachment (>= 0.2.5)
+        attachment (>= 0.2.5), renv
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-07-13 12:38:02 UTC; colin
+Packaged: 2022-09-21 19:35:27 UTC; colin
 Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
   Vincent Guyader [aut] (<https://orcid.org/0000-0003-0671-9270>,
     previous maintainer),
@@ -73,4 +73,4 @@ Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
   ThinkR [cph]
 Maintainer: Colin Fay <contact@colinfay.me>
 Repository: CRAN
-Date/Publication: 2022-07-13 13:10:06 UTC
+Date/Publication: 2022-09-26 07:40:02 UTC
