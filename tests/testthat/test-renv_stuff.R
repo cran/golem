@@ -1,5 +1,4 @@
 test_that("add_dockerfiles_renv and add_dockerfile_with_renv_shinyproxy all output file are present", {
-
   skip_if_not_installed("renv")
   skip_if_not_installed("dockerfiler", "0.2.0")
   skip_if_not_installed("attachment", "0.2.5")
