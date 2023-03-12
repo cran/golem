@@ -11,27 +11,20 @@ golem_sys <- function(
   )
 }
 
-#  from usethis https://github.com/r-lib/usethis/
-darkgrey <- function(x) {
-  x <- crayon::make_style("darkgrey")(x)
-}
 
-#' @importFrom fs dir_exists file_exists
-dir_not_exist <- Negate(fs::dir_exists)
-file_not_exist <- Negate(fs::file_exists)
 
-#' @importFrom fs dir_create file_create
 create_if_needed <- function(
   path,
   type = c("file", "directory"),
   content = NULL
 ) {
   type <- match.arg(type)
+
   # Check if file or dir already exist
   if (type == "file") {
-    dont_exist <- file_not_exist(path)
+    dont_exist <- Negate(fs_file_exists)(path)
   } else if (type == "directory") {
-    dont_exist <- dir_not_exist(path)
+    dont_exist <- Negate(fs_dir_exists)(path)
   }
   # If it doesn't exist, ask if we are allowed
   # to create it
@@ -50,10 +43,10 @@ create_if_needed <- function(
       } else {
         # Create the file
         if (type == "file") {
-          file_create(path)
+          fs_file_create(path)
           write(content, path, append = TRUE)
         } else if (type == "directory") {
-          dir_create(path, recurse = TRUE)
+          fs_dir_create(path, recurse = TRUE)
         }
       }
     } else {
@@ -72,28 +65,13 @@ create_if_needed <- function(
   return(TRUE)
 }
 
-#' @importFrom fs file_exists
 check_file_exist <- function(file) {
   res <- TRUE
-  if (file_exists(file)) {
+  if (fs_file_exists(file)) {
     if (interactive()) {
       res <- yesno("This file already exists, override?")
     } else {
       res <- TRUE
-    }
-  }
-  return(res)
-}
-
-# TODO Remove from codebase
-#' @importFrom fs dir_exists
-check_dir_exist <- function(dir) {
-  res <- TRUE
-  if (!dir_exists(dir)) {
-    if (interactive()) {
-      res <- yesno(sprintf("The %s does not exists, create?", dir))
-    } else {
-      res <- FALSE
     }
   }
   return(res)
@@ -130,44 +108,48 @@ remove_comments <- function(file) {
   writeLines(text = lines_without_comment, con = file)
 }
 
-#' @importFrom cli cat_bullet
 cat_green_tick <- function(...) {
-  cat_bullet(
-    ...,
-    bullet = "tick",
-    bullet_col = "green"
-  )
+  do_if_unquiet({
+    cli_cat_bullet(
+      ...,
+      bullet = "tick",
+      bullet_col = "green"
+    )
+  })
 }
 
-#' @importFrom cli cat_bullet
 cat_red_bullet <- function(...) {
-  cat_bullet(
-    ...,
-    bullet = "bullet",
-    bullet_col = "red"
-  )
+  do_if_unquiet({
+    cli_cat_bullet(
+      ...,
+      bullet = "bullet",
+      bullet_col = "red"
+    )
+  })
 }
 
-#' @importFrom cli cat_bullet
 cat_info <- function(...) {
-  cat_bullet(
-    ...,
-    bullet = "arrow_right",
-    bullet_col = "grey"
-  )
+  do_if_unquiet({
+    cli_cat_bullet(
+      ...,
+      bullet = "arrow_right",
+      bullet_col = "grey"
+    )
+  })
 }
+
 
 cat_exists <- function(where) {
   cat_red_bullet(
     sprintf(
       "[Skipped] %s already exists.",
-      path_file(where)
+      basename(where)
     )
   )
   cat_info(
     sprintf(
       "If you want replace it, remove the %s file first.",
-      path_file(where)
+      basename(where)
     )
   )
 }
@@ -179,8 +161,10 @@ cat_dir_necessary <- function() {
 }
 
 cat_start_download <- function() {
-  cat_line("")
-  cat_rule("Initiating file download")
+  do_if_unquiet({
+    cli_cat_line("")
+    cli_cat_line("Initiating file download")
+  })
 }
 
 cat_downloaded <- function(
@@ -197,8 +181,10 @@ cat_downloaded <- function(
 }
 
 cat_start_copy <- function() {
-  cat_line("")
-  cat_rule("Copying file")
+  do_if_unquiet({
+    cli_cat_line("")
+    cli_cat_line("Copying file")
+  })
 }
 
 cat_copied <- function(
@@ -240,11 +226,9 @@ open_or_go_to <- function(
   open_file
 ) {
   if (
-    rstudioapi::isAvailable() &&
-      open_file &&
-      rstudioapi::hasFun("navigateToFile")
+    open_file
   ) {
-    rstudioapi::navigateToFile(where)
+    rstudioapi_navigateToFile(where)
   } else {
     cat_red_bullet(
       sprintf(
@@ -257,7 +241,7 @@ open_or_go_to <- function(
 }
 
 desc_exist <- function(pkg) {
-  file_exists(
+  fs_file_exists(
     paste0(pkg, "/DESCRIPTION")
   )
 }
@@ -271,7 +255,7 @@ after_creation_message_js <- function(
     desc_exist(pkg)
   ) {
     if (
-      fs::path_abs(dir) != fs::path_abs("inst/app/www") &
+      fs_path_abs(dir) != fs_path_abs("inst/app/www") &
         utils::packageVersion("golem") < "0.2.0"
     ) {
       cat_red_bullet(
@@ -293,7 +277,7 @@ after_creation_message_css <- function(
   if (
     desc_exist(pkg)
   ) {
-    if (fs::path_abs(dir) != fs::path_abs("inst/app/www") &
+    if (fs_path_abs(dir) != fs_path_abs("inst/app/www") &
       utils::packageVersion("golem") < "0.2.0"
     ) {
       cat_red_bullet(
@@ -316,7 +300,7 @@ after_creation_message_sass <- function(
   if (
     desc_exist(pkg)
   ) {
-    if (fs::path_abs(dir) != fs::path_abs("inst/app/www") &
+    if (fs_path_abs(dir) != fs_path_abs("inst/app/www") &
       utils::packageVersion("golem") < "0.2.0"
     ) {
       cat_red_bullet(
@@ -333,13 +317,15 @@ after_creation_message_html_template <- function(
   dir,
   name
 ) {
-  cat_line("")
-  cat_rule("To use this html file as a template, add the following code in app_ui.R:")
-  cat_line(darkgrey("htmlTemplate("))
-  cat_line(darkgrey(sprintf('    app_sys("app/www/%s.html"),', name)))
-  cat_line(darkgrey("    body = tagList()"))
-  cat_line(darkgrey("    # add here other template arguments"))
-  cat_line(darkgrey(")"))
+  do_if_unquiet({
+    cli_cat_line("")
+    cli_cat_line("To use this html file as a template, add the following code in your UI:")
+    cli_cat_line(crayon_darkgrey("htmlTemplate("))
+    cli_cat_line(crayon_darkgrey(sprintf('    app_sys("app/www/%s.html"),', file_path_sans_ext(name))))
+    cli_cat_line(crayon_darkgrey("    body = tagList()"))
+    cli_cat_line(crayon_darkgrey("    # add here other template arguments"))
+    cli_cat_line(crayon_darkgrey(")"))
+  })
 }
 
 file_created_dance <- function(
@@ -405,10 +391,11 @@ yesno <- function(...) {
   menu(c("Yes", "No")) == 1
 }
 
+
 # Checking that a package is installed
 check_is_installed <- function(
-  pak,
-  ...
+    pak,
+    ...
 ) {
   if (
     !requireNamespace(pak, ..., quietly = TRUE)
@@ -425,8 +412,8 @@ check_is_installed <- function(
 }
 
 required_version <- function(
-  pak,
-  version
+    pak,
+    version
 ) {
   if (
     utils::packageVersion(pak) < version
@@ -443,10 +430,12 @@ required_version <- function(
   }
 }
 
-#' @importFrom fs file_exists
+
+
+
 add_sass_code <- function(where, dir, name) {
-  if (file_exists(where)) {
-    if (file_exists("dev/run_dev.R")) {
+  if (fs_file_exists(where)) {
+    if (fs_file_exists("dev/run_dev.R")) {
       lines <- readLines("dev/run_dev.R")
       new_lines <- append(
         x = lines,
@@ -490,4 +479,32 @@ is_existing_module <- function(module) {
     existing_module_files
   )
   module %in% existing_module_names
+}
+
+# This function is used for checking
+# that  the name argument of the function
+# creating files is not of length() > 1
+check_name_length <- function(name) {
+  stop_if(
+    name,
+    ~ length(.x) > 1,
+    sprintf(
+      "`name` should be of length 1. Got %d.",
+      length(name)
+    )
+  )
+}
+
+do_if_unquiet <- function(expr) {
+  if (
+    !getOption(
+      "golem.quiet",
+      getOption(
+        "usethis.quiet",
+        default = FALSE
+      )
+    )
+  ) {
+    force(expr)
+  }
 }

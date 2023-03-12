@@ -26,7 +26,8 @@ golem::create_golem(path = x, package_name = "golex", open = FALSE)
 z <- capture.output(fs::dir_tree(x))
 z <- z[-1]
 w <- lapply(
-  z, function(x) {
+  z,
+  function(x) {
     cat(x, "\n")
   }
 )
@@ -39,7 +40,8 @@ w <- lapply(
 #    author_first_name = "AUTHOR_FIRST", # Your First Name
 #    author_last_name = "AUTHOR_LAST", # Your Last Name
 #    author_email = "AUTHOR@MAIL.COM", # Your Email
-#    repo_url = NULL # The (optional) URL of the GitHub Repo
+#    repo_url = NULL, # The (optional) URL of the GitHub Repo
+#    pkg_version = "0.0.0.9000" # The Version of the package containing the App
 #  )
 
 ## -----------------------------------------------------------------------------

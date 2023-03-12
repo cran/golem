@@ -25,16 +25,21 @@ golem::fill_desc(
   author_first_name = "AUTHOR_FIRST", # Your First Name
   author_last_name = "AUTHOR_LAST", # Your Last Name
   author_email = "AUTHOR@MAIL.COM", # Your Email
-  repo_url = NULL # The URL of the GitHub Repo (optional)
+  repo_url = NULL, # The URL of the GitHub Repo (optional),
+  pkg_version = "0.0.0.9000" # The Version of the package containing the App
 )
 
 ## Set {golem} options ----
 golem::set_golem_options()
 
+## Install the required dev dependencies ----
+golem::install_dev_deps()
+
 ## Create Common Files ----
 ## See ?usethis for more information
 usethis::use_mit_license("Golem User") # You can set another license here
 usethis::use_readme_rmd(open = FALSE)
+devtools::build_readme()
 # Note that `contact` is required since usethis version 2.1.5
 # If your {usethis} version is older, you can remove that param
 usethis::use_code_of_conduct(contact = "Golem User")

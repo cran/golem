@@ -1,14 +1,12 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>", 
+  comment = "#>",
   eval = FALSE
 )
 
 ## -----------------------------------------------------------------------------
-#  run_app <- function(
-#    ...
-#  ) {
+#  run_app <- function(...) {
 #    with_golem_options(
 #      app = shinyApp(
 #        ui = app_ui,
@@ -17,7 +15,6 @@ knitr::opts_chunk$set(
 #      golem_opts = list(...)
 #    )
 #  }
-#  
 
 ## -----------------------------------------------------------------------------
 #  run_app(this = "that")
@@ -45,12 +42,22 @@ knitr::opts_chunk$set(
 #  
 #  # If you want to deploy to ShinyProxy
 #  golem::add_dockerfile_with_renv_shinyproxy(output_dir = "deploy")
-#  
 
 ## -----------------------------------------------------------------------------
-#  attachment::create_renv_for_dev(dev_pkg = c("renv", "devtools", "roxygen2",
-#    "usethis", "pkgload", "testthat", "remotes", "covr", "attachment",
-#    "pak", "dockerfiler","golem"))
+#  attachment::create_renv_for_dev(dev_pkg = c(
+#    "renv",
+#    "devtools",
+#    "roxygen2",
+#    "usethis",
+#    "pkgload",
+#    "testthat",
+#    "remotes",
+#    "covr",
+#    "attachment",
+#    "pak",
+#    "dockerfiler",
+#    "golem"
+#  ))
 
 ## -----------------------------------------------------------------------------
 #  renv::activate()
@@ -58,10 +65,8 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 #  
 #  # If you want to deploy via a generic Dockerfile
-#  golem::add_dockerfile_with_renv(output_dir = "deploy",lockfile =  "renv.lock")
+#  golem::add_dockerfile_with_renv(output_dir = "deploy", lockfile = "renv.lock")
 #  
 #  # If you want to deploy to ShinyProxy
-#  golem::add_dockerfile_with_renv_shinyproxy(output_dir = "deploy",lockfile =  "renv.lock")
-#  
-#  
+#  golem::add_dockerfile_with_renv_shinyproxy(output_dir = "deploy", lockfile = "renv.lock")
 

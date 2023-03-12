@@ -19,9 +19,7 @@
 #' @note This function will prefix the `name` argument with `mod_`.
 #'
 #' @export
-#' @importFrom cli cat_bullet
 #' @importFrom utils file.edit
-#' @importFrom fs path_abs path file_create
 #'
 #' @seealso [module_template()]
 #'
@@ -40,13 +38,14 @@ add_module <- function(
   with_test = FALSE,
   ...
 ) {
+  check_name_length(name)
   name <- file_path_sans_ext(name)
 
-  old <- setwd(path_abs(pkg))
+  old <- setwd(fs_path_abs(pkg))
   on.exit(setwd(old))
 
   dir_created <- create_if_needed(
-    path(pkg, "R"),
+    fs_path(pkg, "R"),
     type = "directory"
   )
 
@@ -55,13 +54,13 @@ add_module <- function(
     return(invisible(FALSE))
   }
 
-  where <- path(
+  where <- fs_path(
     "R",
     paste0("mod_", name, ".R")
   )
 
-  if (!file_exists(where)) {
-    file_create(where)
+  if (!fs_file_exists(where)) {
+    fs_file_create(where)
 
     module_template(name = name, path = where, export = export, ...)
 
@@ -238,7 +237,6 @@ use_module_test <- function(
   pkg = get_golem_wd(),
   open = TRUE
 ) {
-
   # Remove the extension if any
   name <- file_path_sans_ext(name)
   # Remove the "mod_" if any
@@ -255,21 +253,23 @@ use_module_test <- function(
     )
   }
 
-  # We need both testthat, usethis & fs
-  check_is_installed("testthat")
-  check_is_installed("fs")
+  # We need testthat
+  rlang::check_installed(
+    "testthat",
+    "to build the test structure."
+  )
 
-  old <- setwd(fs::path_abs(pkg))
+  old <- setwd(fs_path_abs(pkg))
   on.exit(setwd(old))
 
 
-  if (!dir.exists(
-    path(pkg, "tests", "testthat")
+  if (!fs_dir_exists(
+    fs_path(pkg, "tests", "testthat")
   )) {
-    usethis::use_testthat()
+    usethis_use_testthat()
   }
 
-  path <- fs::path(
+  path <- fs_path(
     pkg,
     "tests",
     "testthat",
@@ -280,8 +280,8 @@ use_module_test <- function(
     ext = "R"
   )
 
-  if (!fs::file_exists(path)) {
-    fs::file_create(path)
+  if (!fs_file_exists(path)) {
+    fs_file_create(path)
 
     write_there <- function(...) {
       write(..., file = path, append = TRUE)

@@ -10,11 +10,18 @@ x <- file.path(
 )
 unlink(x, TRUE, TRUE)
 
-create_golem(x, package_name = "golex", open = FALSE)
+x <- golem::create_golem(x, package_name = "golex", open = FALSE)
+old <- setwd(x)
 knitr::opts_knit$set(root.dir = x)
 
 ## ----setup--------------------------------------------------------------------
 library(golem)
+
+## ----echo = FALSE-------------------------------------------------------------
+old <- setwd(x)
+
+## -----------------------------------------------------------------------------
+set_golem_options()
 
 ## ----echo = FALSE, comment= ""------------------------------------------------
 cat(
@@ -25,9 +32,6 @@ cat(
 )
 
 ## -----------------------------------------------------------------------------
-set_golem_options()
-
-## -----------------------------------------------------------------------------
 get_golem_name()
 get_golem_wd()
 get_golem_version()
@@ -36,6 +40,14 @@ get_golem_version()
 #  set_golem_name("this")
 #  set_golem_wd(".")
 #  set_golem_version("0.0.1")
+
+## ----echo = FALSE, comment= ""------------------------------------------------
+cat(
+  sep = "\n",
+  readLines(
+    "inst/golem-config.yml"
+  )
+)
 
 ## -----------------------------------------------------------------------------
 amend_golem_config(
@@ -69,4 +81,7 @@ get_golem_config(
 ## -----------------------------------------------------------------------------
 Sys.setenv("R_CONFIG_ACTIVE" = "production")
 get_golem_config("where")
+
+## ----echo = FALSE-------------------------------------------------------------
+setwd(old)
 

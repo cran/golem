@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with {golem}"
+title: "a_start"
 author: "Colin Fay"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -77,7 +77,8 @@ Once you've got that, a new RStudio project will be launched. Here is the struct
 z <- capture.output(fs::dir_tree(x))
 z <- z[-1]
 w <- lapply(
-  z, function(x) {
+  z,
+  function(x) {
     cat(x, "\n")
   }
 )
@@ -118,11 +119,12 @@ golem::fill_desc(
   author_first_name = "AUTHOR_FIRST", # Your First Name
   author_last_name = "AUTHOR_LAST", # Your Last Name
   author_email = "AUTHOR@MAIL.COM", # Your Email
-  repo_url = NULL # The (optional) URL of the GitHub Repo
+  repo_url = NULL, # The (optional) URL of the GitHub Repo
+  pkg_version = "0.0.0.9000" # The Version of the package containing the App
 )
 ```
 
-About [the DESCRIPTION file](https://r-pkgs.org/Metadata.html#sec-description).
+About [the DESCRIPTION file](https://r-pkgs.org/description.html).
 
 ### Add `{golem}` options
 
