@@ -1,6 +1,6 @@
 Package: golem
 Title: A Framework for Robust Shiny Applications
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: c(
     person("Colin", "Fay", , "contact@colinfay.me", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-7343-1846")),
@@ -36,7 +36,7 @@ Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-03-10 13:02:12 UTC; colinfay
+Packaged: 2023-06-05 15:00:10 UTC; colinfay
 Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
   Vincent Guyader [aut] (<https://orcid.org/0000-0003-0671-9270>,
     previous maintainer),
@@ -49,4 +49,4 @@ Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
   ThinkR [cph]
 Maintainer: Colin Fay <contact@colinfay.me>
 Repository: CRAN
-Date/Publication: 2023-03-12 10:20:18 UTC
+Date/Publication: 2023-06-05 15:50:03 UTC

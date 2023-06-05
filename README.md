@@ -6,7 +6,7 @@
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check](https://github.com/ThinkR-open/golem/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/golem/actions)
 [![Coverage
-status](https://codecov.io/gh/ThinkR-open/golem/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/golem?branch=master)
+status](https://codecov.io/gh/ThinkR-open/golem/branch/master/graph/badge.svg)](https://app.codecov.io/github/ThinkR-open/golem?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/golem)](https://cran.r-project.org/package=golem)
 
@@ -19,13 +19,13 @@ shiny applications.
 
 ## About
 
-You’re reading the doc about version : 0.4.0
+You’re reading the doc about version : 0.4.1
 
 This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2023-03-10 09:53:27 CET"
+#> [1] "2023-06-05 16:57:28 CEST"
 ```
 
 Here are the test & coverage results :
@@ -33,16 +33,20 @@ Here are the test & coverage results :
 ``` r
 devtools::check(quiet = TRUE)
 #> ℹ Loading golem
-#> ── R CMD check results ──────────────────────────────────────── golem 0.4.0 ────
-#> Duration: 1m 23.6s
+#> ── R CMD check results ──────────────────────────────────────── golem 0.4.1 ────
+#> Duration: 1m 18.7s
 #> 
 #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ```
 
 ``` r
 covr::package_coverage()
-#> golem Coverage: 69.16%
+#> golem Coverage: 58.99%
+#> R/add_dockerfiles_renv.R: 0.00%
+#> R/add_dockerfiles.R: 0.00%
 #> R/addins.R: 0.00%
+#> R/bootstrap_attachment.R: 0.00%
+#> R/bootstrap_dockerfiler.R: 0.00%
 #> R/bootstrap_rstudio_api.R: 0.00%
 #> R/enable_roxygenize.R: 0.00%
 #> R/get_sysreqs.R: 0.00%
@@ -55,12 +59,10 @@ covr::package_coverage()
 #> R/test_helpers.R: 30.26%
 #> R/js.R: 43.75%
 #> R/reload.R: 45.36%
+#> R/utils.R: 54.14%
 #> R/use_recommended.R: 54.55%
 #> R/bootstrap_desc.R: 55.56%
 #> R/install_dev_deps.R: 57.14%
-#> R/utils.R: 58.30%
-#> R/bootstrap_attachment.R: 61.54%
-#> R/add_dockerfiles.R: 74.19%
 #> R/bootstrap_usethis.R: 76.56%
 #> R/boostrap_fs.R: 77.78%
 #> R/modules_fn.R: 80.00%
@@ -74,8 +76,6 @@ covr::package_coverage()
 #> R/add_files.R: 92.31%
 #> R/add_rstudio_files.R: 93.10%
 #> R/golem-yaml-get.R: 93.18%
-#> R/bootstrap_dockerfiler.R: 93.33%
-#> R/add_dockerfiles_renv.R: 93.75%
 #> R/boostrap_cli.R: 100.00%
 #> R/boostrap_crayon.R: 100.00%
 #> R/bootstrap_pkgload.R: 100.00%
