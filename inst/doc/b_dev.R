@@ -56,8 +56,6 @@ knitr::opts_chunk$set(
 #  devtools::build_vignettes()
 
 ## -----------------------------------------------------------------------------
-#  usethis::use_travis()
-#  usethis::use_appveyor()
 #  usethis::use_coverage()
 
 ## ----eval = TRUE--------------------------------------------------------------

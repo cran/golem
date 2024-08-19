@@ -12,7 +12,7 @@
 
 <meta name="author" content="Colin Fay" />
 
-<meta name="date" content="2023-06-05" />
+<meta name="date" content="2024-08-19" />
 
 <title>c_deploy</title>
 
@@ -51,7 +51,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">c_deploy</h1>
 <h4 class="author">Colin Fay</h4>
-<h4 class="date">2023-06-05</h4>
+<h4 class="date">2024-08-19</h4>
 
 
 
@@ -354,56 +354,58 @@ $(document).ready(function () {
 <p>When launching the app, you might have noticed that the
 <code>dev/run_dev.R</code> function calls <code>run_app()</code>, which
 has the following structure:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">server =</span> app_server</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>This function might looks a little bit weird, but there’s a long
-story behind it, and you can read more about it <a href="https://rtask.thinkr.fr/shinyapp-runapp-shinyappdir-difference/">there</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">server =</span> app_server</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    ),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  )</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>}</span></code></pre></div>
+<p>This function might look a little bit weird, but there’s a long story
+behind it, and you can read more about it <a href="https://rtask.thinkr.fr/shinyapp-runapp-shinyappdir-difference/">there</a>.</p>
 <p>But long story short, this combination of
 <code>with_golem_options</code> &amp;
-<code>golem_opts = list(...)</code> allows you to pass argument to the
+<code>golem_opts = list(...)</code> allows you to pass arguments to the
 function to be used inside the application, from UI or from server side,
 which you can get with <code>get_golem_options()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_app</span>(<span class="at">this =</span> <span class="st">&quot;that&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># And in the app</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>this <span class="ot">&lt;-</span> <span class="fu">get_golem_options</span>(<span class="st">&quot;this&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">run_app</span>(<span class="at">this =</span> <span class="st">&quot;that&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># And in the app</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>this <span class="ot">&lt;-</span> <span class="fu">get_golem_options</span>(<span class="st">&quot;this&quot;</span>)</span></code></pre></div>
 <p>The idea is to provide more flexibility for deployment on each
 platform you want to run your app on.</p>
 </div>
 <div id="deploying-apps-with-golem" class="section level2">
 <h2>Deploying Apps with <code>{golem}</code></h2>
-<p>The <code>dev/03_deploy.R</code> file contains function for deploying
-on various platforms.</p>
-<div id="rstudio-products" class="section level3">
-<h3>RStudio Products</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_rstudioconnect_file</span>()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_shinyappsio_file</span>()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_shinyserver_file</span>()</span></code></pre></div>
+<p>The <code>dev/03_deploy.R</code> file contains functions for
+deployment on various platforms.</p>
+<div id="posit-products" class="section level3">
+<h3>Posit Products</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_positconnect_file</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_shinyappsio_file</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_shinyserver_file</span>()</span></code></pre></div>
+<p>For Git backed deployment on Posit (for <a href="https://docs.posit.co/connect/user/git-backed/#linking-git-to-posit-connect">details</a>
+a <code>manifest.json</code> file is required which can be added (or
+updated) via:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">writeManifest</span>()</span></code></pre></div>
 </div>
 <div id="docker" class="section level3">
 <h3>Docker</h3>
 <div id="without-using-renv" class="section level4">
-<h4>without using {renv}</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_shinyproxy</span>()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy to Heroku</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_heroku</span>()</span></code></pre></div>
+<h4>Without using <code>{renv}</code></h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_shinyproxy</span>()</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># If you want to deploy to Heroku</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_heroku</span>()</span></code></pre></div>
 </div>
-<div id="using-renv" class="section level4">
-<h4>using {renv}</h4>
-</div>
-<div id="case-1-you-didnt-use-renv-during-developpment-process" class="section level4">
-<h4>CASE 1 : you didn’t use renv during developpment process</h4>
+<div id="using-renv---case-1-you-didnt-use-renv-during-development-process" class="section level4">
+<h4>Using <code>{renv}</code> - CASE 1 : you didn’t use renv during
+development process</h4>
 <blockquote>
 <p>this functions will create a “deploy” folder containing :</p>
 </blockquote>
@@ -413,39 +415,39 @@ on various platforms.</p>
 +-- yourgolem_0.0.0.9000.tar.gz
 +-- README
 \-- renv.lock.prod</code></pre>
-<p>then follow the README file</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv_shinyproxy</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>)</span></code></pre></div>
-<p>If you would like to use {renv} during developpement, you can init a
-renv.lock file with</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>attachment<span class="sc">::</span><span class="fu">create_renv_for_dev</span>(<span class="at">dev_pkg =</span> <span class="fu">c</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;renv&quot;</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;devtools&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;roxygen2&quot;</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;usethis&quot;</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;pkgload&quot;</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;testthat&quot;</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;remotes&quot;</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;covr&quot;</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;attachment&quot;</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;pak&quot;</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;dockerfiler&quot;</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;golem&quot;</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
-<p>an activate {renv} with</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">activate</span>()</span></code></pre></div>
+<p>then follow the <code>README</code> file.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv_shinyproxy</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>)</span></code></pre></div>
+<p>If you would like to use <code>{renv}</code> during development, you
+can init a <code>renv.lock</code> file with</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>attachment<span class="sc">::</span><span class="fu">create_renv_for_dev</span>(<span class="at">dev_pkg =</span> <span class="fu">c</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="st">&quot;renv&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="st">&quot;devtools&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="st">&quot;roxygen2&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="st">&quot;usethis&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="st">&quot;pkgload&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="st">&quot;testthat&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="st">&quot;remotes&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="st">&quot;covr&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="st">&quot;attachment&quot;</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="st">&quot;pak&quot;</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="st">&quot;dockerfiler&quot;</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="st">&quot;golem&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>))</span></code></pre></div>
+<p>and activate <code>{renv}</code> with</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">activate</span>()</span></code></pre></div>
 </div>
-<div id="case-2-you-already-have-a-renv.lock-file-for-your-project" class="section level4">
-<h4>CASE 2 : you already have a renv.lock file for your project</h4>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>, <span class="at">lockfile =</span> <span class="st">&quot;renv.lock&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv_shinyproxy</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>, <span class="at">lockfile =</span> <span class="st">&quot;renv.lock&quot;</span>)</span></code></pre></div>
+<div id="using-renv---case-2-you-already-have-a-renv.lock-file-for-your-project" class="section level4">
+<h4>Using <code>{renv}</code> - CASE 2: you already have a
+<code>renv.lock</code> file for your project</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># If you want to deploy via a generic Dockerfile</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>, <span class="at">lockfile =</span> <span class="st">&quot;renv.lock&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># If you want to deploy to ShinyProxy</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_dockerfile_with_renv_shinyproxy</span>(<span class="at">output_dir =</span> <span class="st">&quot;deploy&quot;</span>, <span class="at">lockfile =</span> <span class="st">&quot;renv.lock&quot;</span>)</span></code></pre></div>
 <blockquote>
 <p>this functions will create a “deploy” folder containing :</p>
 </blockquote>
@@ -455,7 +457,7 @@ renv.lock file with</p>
 +-- yourgolem_0.0.0.9000.tar.gz
 +-- README
 \-- renv.lock.prod</code></pre>
-<p>then follow the README file</p>
+<p>then follow the <code>README</code> file.</p>
 </div>
 </div>
 </div>

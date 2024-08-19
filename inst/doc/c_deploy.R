@@ -22,9 +22,12 @@ knitr::opts_chunk$set(
 #  this <- get_golem_options("this")
 
 ## -----------------------------------------------------------------------------
-#  golem::add_rstudioconnect_file()
+#  golem::add_positconnect_file()
 #  golem::add_shinyappsio_file()
 #  golem::add_shinyserver_file()
+
+## -----------------------------------------------------------------------------
+#  rsconnect::writeManifest()
 
 ## -----------------------------------------------------------------------------
 #  # If you want to deploy via a generic Dockerfile
@@ -63,7 +66,6 @@ knitr::opts_chunk$set(
 #  renv::activate()
 
 ## -----------------------------------------------------------------------------
-#  
 #  # If you want to deploy via a generic Dockerfile
 #  golem::add_dockerfile_with_renv(output_dir = "deploy", lockfile = "renv.lock")
 #  

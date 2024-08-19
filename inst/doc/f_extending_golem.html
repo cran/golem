@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -405,28 +405,28 @@ compatibility reasons.</p>
 <h3>Example</h3>
 <p>Here is an example of a function that can be used to remove the
 <code>dev/</code> folder:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>no_dev <span class="ot">&lt;-</span> <span class="cf">function</span>(path, package_name, ...) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  fs<span class="sc">::</span><span class="fu">dir_delete</span>(<span class="st">&quot;dev&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">create_golem</span>(<span class="st">&quot;ici&quot;</span>, <span class="at">project_hook =</span> no_dev)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>no_dev <span class="ot">&lt;-</span> <span class="cf">function</span>(path, package_name, ...) {</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  fs<span class="sc">::</span><span class="fu">dir_delete</span>(<span class="st">&quot;dev&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">create_golem</span>(<span class="st">&quot;ici&quot;</span>, <span class="at">project_hook =</span> no_dev)</span></code></pre></div>
 <p>This one will create a CSS:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>new_css <span class="ot">&lt;-</span> <span class="cf">function</span>(path, package_name, ...) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  css_path <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">path_abs</span>(<span class="st">&quot;inst/app/www/custom.css&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  fs<span class="sc">::</span><span class="fu">file_create</span>(css_path)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  write_there <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write</span>(..., <span class="at">file =</span> css_path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;body {&quot;</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;    background-color:red;&quot;</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;}&quot;</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cli_cat_bullet</span>(<span class="st">&quot;CSS generated&quot;</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">create_golem</span>(<span class="st">&quot;ici&quot;</span>, <span class="at">project_hook =</span> new_css)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>new_css <span class="ot">&lt;-</span> <span class="cf">function</span>(path, package_name, ...) {</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  css_path <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">path_abs</span>(<span class="st">&quot;inst/app/www/custom.css&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  fs<span class="sc">::</span><span class="fu">file_create</span>(css_path)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  write_there <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    <span class="fu">write</span>(..., <span class="at">file =</span> css_path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  }</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;body {&quot;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;    background-color:red;&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;}&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="fu">cli_cat_bullet</span>(<span class="st">&quot;CSS generated&quot;</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">create_golem</span>(<span class="st">&quot;ici&quot;</span>, <span class="at">project_hook =</span> new_css)</span></code></pre></div>
 </div>
 </div>
 <div id="module-templates" class="section level2">
@@ -476,18 +476,18 @@ compatibility reasons.</p>
 </div>
 <div id="example-1" class="section level3">
 <h3>Example</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(name, path, export, ...) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define a template that only write the name of the</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># module in the file</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write</span>(name, path)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_module</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">module_template =</span> my_tmpl)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>my_other_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(name, path, ...) {</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Copy and paste a file from somewhere else</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.copy</span>(..., path)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_module</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">module_template =</span> my_other_tmpl)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>my_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(name, path, export, ...) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="co"># Define a template that only write the name of the</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="co"># module in the file</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">write</span>(name, path)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_module</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">module_template =</span> my_tmpl)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>my_other_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(name, path, ...) {</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="co"># Copy and paste a file from somewhere else</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="fu">file.copy</span>(..., path)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_module</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">module_template =</span> my_other_tmpl)</span></code></pre></div>
 </div>
 </div>
 <div id="js-css-sass-templates" class="section level2">
@@ -532,25 +532,25 @@ compatibility reasons.</p>
 </div>
 <div id="example-2" class="section level3">
 <h3>Example</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(path, ...) {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define a template that only write the name of the</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># module in the file</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  write_there <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write</span>(..., <span class="at">file =</span> path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;body {&quot;</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;    background-color:red;&quot;</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;}&quot;</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_css_file</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">template =</span> my_tmpl)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>my_tmpl <span class="ot">&lt;-</span> <span class="cf">function</span>(path, ...) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="co"># Define a template that only write the name of the</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="co"># module in the file</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  write_there <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="fu">write</span>(..., <span class="at">file =</span> path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  }</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;body {&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;    background-color:red;&quot;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">write_there</span>(<span class="st">&quot;}&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>}</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_css_file</span>(<span class="at">name =</span> <span class="st">&quot;custom&quot;</span>, <span class="at">template =</span> my_tmpl)</span></code></pre></div>
 </div>
 </div>
 <div id="turn-on-the-maintenance-mode" class="section level2">
 <h2>Turn on the maintenance mode</h2>
 <div id="what-it-is-3" class="section level3">
 <h3>What it is</h3>
-<p>From time to time, you need your application to be unavailble:
+<p>From time to time, you need your application to be unavailable:
 database update, API changes, etc. In order to keep your app running but
 make it unavailable, you can use a <strong>maintenance mode</strong>.
 When this maintenance mode is turned on, your application will be paused
@@ -565,15 +565,15 @@ that the <code>GOLEM_MAINTENANCE_ACTIVE</code> environment variable is
 set to TRUE.</p>
 <p>To visualize the maintenance page locally, you can run the
 following:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_envvar</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;GOLEM_MAINTENANCE_ACTIVE&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    golem<span class="sc">::</span><span class="fu">run_dev</span>()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_envvar</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;GOLEM_MAINTENANCE_ACTIVE&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  {</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    golem<span class="sc">::</span><span class="fu">run_dev</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  }</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span></code></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">&quot;GOLEM_MAINTENANCE_ACTIVE&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">run_dev</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">&quot;GOLEM_MAINTENANCE_ACTIVE&quot;</span> <span class="ot">=</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">run_dev</span>()</span></code></pre></div>
 <p>If you’re deploying on Posit Connect, you can set this variable in
 the setup panel.</p>
 <p>If in command line, you can also do</p>
@@ -586,54 +586,54 @@ can override it and use your own custom page.</p>
 <p>In order to use your own page, you need to pass either an
 <code>html_document</code> or a <code>tagList</code> to the
 <code>with_golem_options</code> function in <code>run_app.R</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">onStart =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">enableBookmarking =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">uiPattern =</span> <span class="st">&quot;/&quot;</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ...) {</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">server =</span> app_server,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">onStart =</span> onStart,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">options =</span> options,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">enableBookmarking =</span> enableBookmarking,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">uiPattern =</span> uiPattern</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...),</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">maintenance_page =</span> <span class="fu">tagList</span>(</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fluidRow</span>(</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">h1</span>(<span class="st">&quot;Under maintenance&quot;</span>),</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">span</span>(<span class="st">&quot;Coming soon...&quot;</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="at">onStart =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="at">enableBookmarking =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>    <span class="at">uiPattern =</span> <span class="st">&quot;/&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    ...) {</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>      <span class="at">server =</span> app_server,</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>      <span class="at">onStart =</span> onStart,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>      <span class="at">options =</span> options,</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>      <span class="at">enableBookmarking =</span> enableBookmarking,</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>      <span class="at">uiPattern =</span> uiPattern</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    ),</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...),</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    <span class="at">maintenance_page =</span> <span class="fu">tagList</span>(</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>      <span class="fu">fluidRow</span>(</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>        <span class="fu">h1</span>(<span class="st">&quot;Under maintenance&quot;</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>        <span class="fu">span</span>(<span class="st">&quot;Coming soon...&quot;</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>      )</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>    )</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  )</span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>}</span></code></pre></div>
 <p>or:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">onStart =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">enableBookmarking =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">uiPattern =</span> <span class="st">&quot;/&quot;</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ...) {</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">server =</span> app_server,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">onStart =</span> onStart,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">options =</span> options,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">enableBookmarking =</span> enableBookmarking,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">uiPattern =</span> uiPattern</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...),</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">maintenance_page =</span> shiny<span class="sc">::</span><span class="fu">htmlTemplate</span>(</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">filename =</span> <span class="fu">app_sys</span>(</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;custom_maintenance_page.html&quot;</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>run_app <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="at">onStart =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">enableBookmarking =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    <span class="at">uiPattern =</span> <span class="st">&quot;/&quot;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    ...) {</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">with_golem_options</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">shinyApp</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>      <span class="at">ui =</span> app_ui,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>      <span class="at">server =</span> app_server,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>      <span class="at">onStart =</span> onStart,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>      <span class="at">options =</span> options,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>      <span class="at">enableBookmarking =</span> enableBookmarking,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>      <span class="at">uiPattern =</span> uiPattern</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>    ),</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    <span class="at">golem_opts =</span> <span class="fu">list</span>(...),</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    <span class="at">maintenance_page =</span> shiny<span class="sc">::</span><span class="fu">htmlTemplate</span>(</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>      <span class="at">filename =</span> <span class="fu">app_sys</span>(</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>        <span class="st">&quot;custom_maintenance_page.html&quot;</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>      )</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>    )</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>  )</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 
