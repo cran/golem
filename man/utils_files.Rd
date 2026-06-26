@@ -7,20 +7,25 @@
 \alias{use_utils_test_server}
 \title{Use the utils files}
 \usage{
-use_utils_ui(pkg = get_golem_wd(), with_test = FALSE)
+use_utils_ui(golem_wd = get_golem_wd(), with_test = FALSE, pkg)
 
-use_utils_test_ui(pkg = get_golem_wd())
+use_utils_test_ui(golem_wd = get_golem_wd(), pkg)
 
-use_utils_server(pkg = get_golem_wd(), with_test = FALSE)
+use_utils_server(golem_wd = get_golem_wd(), with_test = FALSE, pkg)
 
-use_utils_test_ui(pkg = get_golem_wd())
+use_utils_test_ui(golem_wd = get_golem_wd(), pkg)
 
-use_utils_test_server(pkg = get_golem_wd())
+use_utils_test_server(golem_wd = get_golem_wd(), pkg)
 }
 \arguments{
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{with_test}{should the module be created with tests?}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 Used for side-effects.

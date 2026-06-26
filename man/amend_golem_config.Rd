@@ -8,8 +8,9 @@ amend_golem_config(
   key,
   value,
   config = "default",
-  pkg = golem::pkg_path(),
-  talkative = TRUE
+  golem_wd = golem::pkg_path(),
+  talkative = TRUE,
+  pkg
 )
 }
 \arguments{
@@ -21,9 +22,14 @@ amend_golem_config(
 the value of the \code{R_CONFIG_ACTIVE} environment variable
 ("default" if the variable does not exist).}
 
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{talkative}{Should the messages be printed to the console?}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 Used for side effects.

@@ -12,7 +12,7 @@
 add_dockerfile(
   path = "DESCRIPTION",
   output = "Dockerfile",
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
   as = NULL,
   port = 80,
@@ -23,13 +23,14 @@ add_dockerfile(
   open = TRUE,
   update_tar_gz = TRUE,
   build_golem_from_source = TRUE,
-  extra_sysreqs = NULL
+  extra_sysreqs = NULL,
+  pkg
 )
 
 add_dockerfile_shinyproxy(
   path = "DESCRIPTION",
   output = "Dockerfile",
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
   as = NULL,
   sysreqs = TRUE,
@@ -38,13 +39,14 @@ add_dockerfile_shinyproxy(
   open = TRUE,
   update_tar_gz = TRUE,
   build_golem_from_source = TRUE,
-  extra_sysreqs = NULL
+  extra_sysreqs = NULL,
+  pkg
 )
 
 add_dockerfile_heroku(
   path = "DESCRIPTION",
   output = "Dockerfile",
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
   as = NULL,
   sysreqs = TRUE,
@@ -53,16 +55,17 @@ add_dockerfile_heroku(
   open = TRUE,
   update_tar_gz = TRUE,
   build_golem_from_source = TRUE,
-  extra_sysreqs = NULL
+  extra_sysreqs = NULL,
+  pkg
 )
 
 add_dockerfile_with_renv(
-  source_folder = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   lockfile = NULL,
   output_dir = fs::path(tempdir(), "deploy"),
   distro = "focal",
   from = "rocker/verse",
-  as = NULL,
+  as = "builder",
   sysreqs = TRUE,
   port = 80,
   host = "0.0.0.0",
@@ -74,11 +77,14 @@ add_dockerfile_with_renv(
   update_tar_gz = TRUE,
   dockerfile_cmd = NULL,
   user = "rstudio",
-  ...
+  single_file = TRUE,
+  set_golem.app.prod = TRUE,
+  ...,
+  source_folder
 )
 
 add_dockerfile_with_renv_shinyproxy(
-  source_folder = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   lockfile = NULL,
   output_dir = fs::path(tempdir(), "deploy"),
   distro = "focal",
@@ -92,11 +98,14 @@ add_dockerfile_with_renv_shinyproxy(
   document = TRUE,
   update_tar_gz = TRUE,
   user = "rstudio",
-  ...
+  single_file = TRUE,
+  set_golem.app.prod = TRUE,
+  ...,
+  source_folder
 )
 
 add_dockerfile_with_renv_heroku(
-  source_folder = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   lockfile = NULL,
   output_dir = fs::path(tempdir(), "deploy"),
   distro = "focal",
@@ -110,7 +119,10 @@ add_dockerfile_with_renv_heroku(
   document = TRUE,
   user = "rstudio",
   update_tar_gz = TRUE,
-  ...
+  single_file = TRUE,
+  set_golem.app.prod = TRUE,
+  ...,
+  source_folder
 )
 }
 \arguments{
@@ -118,7 +130,8 @@ add_dockerfile_with_renv_heroku(
 
 \item{output}{name of the Dockerfile output.}
 
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{path to the Package/golem source folder to deploy.
+default is retrieved via \code{\link[=get_golem_wd]{get_golem_wd()}}.}
 
 \item{from}{The FROM of the Dockerfile. Default is
 
@@ -153,8 +166,10 @@ the Dockerfile directly mount the source folder.}
 
 \item{extra_sysreqs}{character vector. Extra debian system requirements.}
 
-\item{source_folder}{path to the Package/golem source folder to deploy.
-default is retrieved via \code{\link[=get_golem_wd]{get_golem_wd()}}.}
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 
 \item{lockfile}{path to the renv.lock file to use. default is \code{NULL}.}
 
@@ -166,11 +181,23 @@ See available distributions at https://hub.docker.com/r/rstudio/r-base/.}
 \item{document}{boolean. If TRUE (by default), DESCRIPTION file is updated using \code{\link[attachment:att_amend_desc]{attachment::att_amend_desc()}} before creating the renv.lock file}
 
 \item{dockerfile_cmd}{What is the CMD to add to the Dockerfile. If NULL, the default,
-the CMD will be \verb{R -e "options('shiny.port'=\{port\},shiny.host='\{host\}');library(\{appname\});\{appname\}::run_app()\\}.}
+the CMD will be \verb{R -e "options('shiny.port'=\{port\},shiny.host='\{host\}',golem.app.prod = \{set_golem.app.prod\});library(\{appname\});\{appname\}::run_app()\\}.}
 
 \item{user}{Name of the user to specify in the Dockerfile with the USER instruction. Default is \code{rstudio}, if set to \code{NULL} no the user from the FROM image is used.}
 
+\item{single_file}{boolean.
+If \code{TRUE} (by default), generate a single multi-stage Dockerfile .
+If \code{FALSE}, produce two distinct Dockerfiles to be run sequentially
+for the build and production phases.}
+
+\item{set_golem.app.prod}{boolean If \code{TRUE} (by default) set options(golem.app.prod = TRUE) in dockerfile_cmd.}
+
 \item{...}{Other arguments to pass to \code{\link[renv:snapshot]{renv::snapshot()}}.}
+
+\item{source_folder}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has
+been replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 The \code{{dockerfiler}} object, invisibly.
@@ -181,6 +208,11 @@ Build a container containing your Shiny App. \code{add_dockerfile()} and
 a generic Dockerfile, while \code{add_dockerfile_shinyproxy()},
 \code{add_dockerfile_with_renv_shinyproxy()} , \code{add_dockerfile_with_renv_shinyproxy()} and
 \code{add_dockerfile_heroku()} creates platform specific Dockerfile.
+}
+\note{
+\code{add_dockerfile()}, \code{add_dockerfile_shinyproxy()}, and
+\code{add_dockerfile_heroku()} are now soft deprecated; use the corresponding
+\verb{add_dockerfile_with_renv_*()} functions instead.
 }
 \examples{
 \donttest{

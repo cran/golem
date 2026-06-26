@@ -9,28 +9,33 @@
 add_fct(
   name,
   module = NULL,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   open = TRUE,
   dir_create = TRUE,
-  with_test = FALSE
+  with_test = FALSE,
+  template = fct_template,
+  ...,
+  pkg
 )
 
 add_utils(
   name,
   module = NULL,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   open = TRUE,
   dir_create = TRUE,
-  with_test = FALSE
+  with_test = FALSE,
+  pkg
 )
 
 add_r6(
   name,
   module = NULL,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   open = TRUE,
   dir_create = TRUE,
-  with_test = FALSE
+  with_test = FALSE,
+  pkg
 )
 }
 \arguments{
@@ -39,13 +44,24 @@ add_r6(
 \item{module}{If not NULL, the file will be module specific
 in the naming (you don't need to add the leading \code{mod_}).}
 
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{open}{Should the created file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
 
 \item{with_test}{should the module be created with tests?}
+
+\item{template}{Function writing the default contents of a function file.
+Defaults to the built-in function template. Ignored for
+module-specific files.}
+
+\item{...}{Arguments passed to the \code{template} function.}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 The path to the file, invisibly.

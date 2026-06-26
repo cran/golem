@@ -1,0 +1,74 @@
+build_name <- function(
+	name = NULL,
+	url,
+	with_ext = FALSE
+) {
+	if (
+		is.null(
+			name
+		)
+	) {
+		name <- basename(
+			url
+		)
+	}
+	check_name_length_is_one(
+		name
+	)
+	if (with_ext) {
+		return(
+			name
+		)
+	}
+	return(
+		file_path_sans_ext(
+			name
+		)
+	)
+}
+
+check_directory_exists <- function(
+	dir
+) {
+	if (
+		!fs_dir_exists(
+			dir
+		)
+	) {
+		cli_abort(
+			sprintf(
+				"The %s directory is required but does not exist.\n\nYou can create it with:\ndir.create('%s', recursive = TRUE)",
+				dir,
+				dir
+			)
+		)
+	}
+}
+
+check_file_exists <- function(
+	where,
+	replace = FALSE,
+	with_replace_hint = FALSE
+) {
+	if (isTRUE(replace)) {
+		return(invisible(NULL))
+	}
+	if (
+		fs_file_exists(
+			where
+		)
+	) {
+		msg <- sprintf(
+			"%s already exists.\n\nYou can delete it with:\nunlink('%s', recursive = TRUE).",
+			where,
+			where
+		)
+		if (isTRUE(with_replace_hint)) {
+			msg <- paste0(
+				msg,
+				"\n\nAlternatively, call this function again with `replace = TRUE`."
+			)
+		}
+		cli_abort(msg)
+	}
+}

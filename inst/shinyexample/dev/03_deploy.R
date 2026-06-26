@@ -16,7 +16,13 @@
 ## Run checks ----
 ## Check the package before sending to prod
 devtools::check()
-rhub::check_for_cran()
+
+## add a classic token with "repo" and "workflow" permissions here:
+## https://github.com/settings/personal-access-tokens/new
+rhub::rhub_setup()
+gitcreds::gitcreds_set()
+rhub::rhub_doctor()
+rhub::rhub_check(platform = "rchk") # CRAN-like checks with GH-Actions
 
 # Deploy
 
@@ -44,18 +50,18 @@ rsconnect::writeManifest()
 
 ## In command line.
 rsconnect::deployApp(
-  appName = desc::desc_get_field("Package"),
-  appTitle = desc::desc_get_field("Package"),
-  appFiles = c(
-    # Add any additional files unique to your app here.
-    "R/",
-    "inst/",
-    "data/",
-    "NAMESPACE",
-    "DESCRIPTION",
-    "app.R"
-  ),
-  appId = rsconnect::deployments(".")$appID,
-  lint = FALSE,
-  forceUpdate = TRUE
+	appName = desc::desc_get_field("Package"),
+	appTitle = desc::desc_get_field("Package"),
+	appFiles = c(
+		# Add any additional files unique to your app here.
+		"R/",
+		"inst/",
+		"data/",
+		"NAMESPACE",
+		"DESCRIPTION",
+		"app.R"
+	),
+	appId = rsconnect::deployments(".")$appID,
+	lint = FALSE,
+	forceUpdate = TRUE
 )

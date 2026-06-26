@@ -3,26 +3,28 @@
 \name{add_positconnect_file}
 \alias{add_positconnect_file}
 \alias{add_rconnect_file}
-\alias{add_rstudioconnect_file}
 \alias{add_shinyappsio_file}
 \alias{add_shinyserver_file}
 \alias{add_rscignore_file}
 \title{Add an \code{app.R} at the root of your package to deploy on RStudio Connect}
 \usage{
-add_positconnect_file(pkg = get_golem_wd(), open = TRUE)
+add_positconnect_file(golem_wd = get_golem_wd(), open = TRUE, pkg)
 
-add_rstudioconnect_file(pkg = get_golem_wd(), open = TRUE)
+add_shinyappsio_file(golem_wd = get_golem_wd(), open = TRUE, pkg)
 
-add_shinyappsio_file(pkg = get_golem_wd(), open = TRUE)
+add_shinyserver_file(golem_wd = get_golem_wd(), open = TRUE, pkg)
 
-add_shinyserver_file(pkg = get_golem_wd(), open = TRUE)
-
-add_rscignore_file(pkg = get_golem_wd(), open = TRUE)
+add_rscignore_file(golem_wd = get_golem_wd(), open = TRUE, pkg)
 }
 \arguments{
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{open}{Should the created file be opened?}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 Side-effect functions for file creation returning the path to the
@@ -34,8 +36,6 @@ Additionally, adds a \code{.rscignore} at the root of the \code{{golem}} project
 }
 \note{
 In previous versions, this function was called add_rconnect_file.
-
-\code{add_rstudioconnect_file} is now deprecated; replace by \code{\link[=add_positconnect_file]{add_positconnect_file()}}.
 }
 \section{List of excluded files in \code{.rscignore}}{
 

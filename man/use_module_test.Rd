@@ -4,14 +4,19 @@
 \alias{use_module_test}
 \title{Add a test file for a module}
 \usage{
-use_module_test(name, pkg = get_golem_wd(), open = TRUE)
+use_module_test(name, golem_wd = get_golem_wd(), open = TRUE, pkg)
 }
 \arguments{
 \item{name}{The name of the module.}
 
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{open}{Should the created file be opened?}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 Used for side effect. Returns the path invisibly.

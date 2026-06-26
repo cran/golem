@@ -1,6 +1,6 @@
 Package: golem
 Title: A Framework for Robust Shiny Applications
-Version: 0.5.1
+Version: 1.0.0
 Authors@R: c(
     person("Colin", "Fay", , "contact@colinfay.me", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-7343-1846")),
@@ -25,27 +25,28 @@ URL: https://thinkr-open.github.io/golem/,
         https://github.com/ThinkR-open/golem
 BugReports: https://github.com/ThinkR-open/golem/issues
 Depends: R (>= 3.5.0)
-Imports: attempt (>= 0.3.0), config, here, htmltools, rlang (>= 1.0.0),
-        shiny (>= 1.5.0), utils, yaml
-Suggests: attachment (>= 0.3.2), callr, cli (>= 2.0.0), covr, crayon,
-        desc, devtools, dockerfiler (>= 0.2.0), fs, httpuv, knitr,
+Imports: attempt (>= 0.3.0), codetools, config, htmltools, rlang (>=
+        1.0.0), shiny (>= 1.5.0), utils, yaml
+Suggests: attachment (>= 0.3.2), callr, cli (>= 2.0.0), covr, desc,
+        devtools, dockerfiler (>= 0.2.5), fs, httpuv, knitr, lifecycle,
         mockery, pkgbuild, pkgdown, pkgload (>= 1.3.0), processx,
         purrr, rcmdcheck, remotes, renv, rmarkdown, roxygen2,
         rsconnect, rstudioapi, sass, spelling, stringr, testthat (>=
         3.0.0), tools, usethis (>= 1.6.0), withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Config/testthat/parallel: true
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0
+RoxygenNote: 8.0.0
 NeedsCompilation: no
-Packaged: 2024-08-27 10:11:51 UTC; colinfay
-Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
-  Vincent Guyader [aut] (<https://orcid.org/0000-0003-0671-9270>,
+Packaged: 2026-06-25 13:43:57 UTC; colinfay
+Author: Colin Fay [cre, aut] (ORCID: <https://orcid.org/0000-0001-7343-1846>),
+  Vincent Guyader [aut] (ORCID: <https://orcid.org/0000-0003-0671-9270>,
     previous maintainer),
-  Sébastien Rochette [aut] (<https://orcid.org/0000-0002-1565-9313>),
-  Cervan Girard [aut] (<https://orcid.org/0000-0002-4816-4624>),
+  Sébastien Rochette [aut] (ORCID:
+    <https://orcid.org/0000-0002-1565-9313>),
+  Cervan Girard [aut] (ORCID: <https://orcid.org/0000-0002-4816-4624>),
   Novica Nakov [ctb],
   David Granjon [ctb],
   Arthur Bréant [ctb],
@@ -54,4 +55,4 @@ Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
   ThinkR [cph]
 Maintainer: Colin Fay <contact@colinfay.me>
 Repository: CRAN
-Date/Publication: 2024-08-27 10:50:32 UTC
+Date/Publication: 2026-06-26 08:40:02 UTC

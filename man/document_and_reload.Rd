@@ -5,22 +5,30 @@
 \title{Document and reload your package}
 \usage{
 document_and_reload(
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   roclets = NULL,
   load_code = NULL,
   clean = FALSE,
   export_all = FALSE,
   helpers = FALSE,
   attach_testthat = FALSE,
-  ...
+  ...,
+  pkg
 )
 }
 \arguments{
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
-\item{roclets}{Character vector of roclet names to use with package.
+\item{roclets}{Character vector of \link[roxygen2:roclet]{roclets} to use.
+
 The default, \code{NULL}, uses the roxygen \code{roclets} option,
-which defaults to \code{c("collate", "namespace", "rd")}.}
+which defaults to \code{c("collate", "namespace", "rd")}. This will update
+(if needed) the \code{Collate} field with \code{\link[roxygen2:update_collate]{update_collate()}},
+produce the \code{NAMESPACE} file with \code{\link[roxygen2:namespace_roclet]{namespace_roclet()}}, and
+produce the Rd files with \code{\link[roxygen2:rd_roclet]{rd_roclet()}}.
+
+(Note that \code{update_collate()} is not technically a roclet but is still
+controlled with this argument for historical reasons.)}
 
 \item{load_code}{A function used to load all the R code in the package
 directory. The default, \code{NULL}, uses the strategy defined by
@@ -40,6 +48,11 @@ in the NAMESPACE file.}
 which more closely mimics the environment within test files.}
 
 \item{...}{Other arguments passed to \code{pkgload::load_all()}}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 }
 \value{
 Used for side-effects

@@ -15,102 +15,116 @@
 \usage{
 add_js_file(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   with_doc_ready = TRUE,
   template = golem::js_template,
-  ...
+  ...,
+  pkg
 )
 
 add_js_handler(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   template = golem::js_handler_template,
-  ...
+  ...,
+  pkg
 )
 
 add_js_input_binding(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   initialize = FALSE,
   dev = FALSE,
-  events = list(name = "click", rate_policy = FALSE)
+  events = list(name = c("change", "input"), rate_policy = c(FALSE, FALSE)),
+  pkg
 )
 
 add_js_output_binding(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE
+  dir_create,
+  pkg
 )
 
 add_css_file(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   template = golem::css_template,
-  ...
+  ...,
+  pkg
 )
 
 add_sass_file(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   template = golem::sass_template,
-  ...
+  ...,
+  pkg
 )
 
 add_empty_file(
   name,
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE,
+  dir_create,
   template = golem::empty_template,
-  ...
+  ...,
+  pkg
 )
 
 add_html_template(
   name = "template.html",
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE
+  dir_create,
+  pkg
 )
 
 add_partial_html_template(
   name = "partial_template.html",
-  pkg = get_golem_wd(),
+  golem_wd = get_golem_wd(),
   dir = "inst/app/www",
   open = TRUE,
-  dir_create = TRUE
+  dir_create,
+  pkg
 )
 
-add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app", dir_create = TRUE)
+add_ui_server_files(
+  golem_wd = get_golem_wd(),
+  dir = "inst/app",
+  dir_create,
+  pkg
+)
 }
 \arguments{
 \item{name}{The name of the module.}
 
-\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+\item{golem_wd}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{dir}{Path to the dir where the file while be created.}
 
 \item{open}{Should the created file be opened?}
 
-\item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
+\item{dir_create}{Deprecated. Will be removed in future versions and throws an error for now.}
 
 \item{with_doc_ready}{For JS file - Should the default file include \verb{$( document ).ready()}?}
 
@@ -118,6 +132,11 @@ add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app", dir_create = TRUE)
 You may overwrite this with your own template function.}
 
 \item{...}{Arguments to be passed to the \code{template} function.}
+
+\item{pkg}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This argument has been
+replaced by \code{golem_wd} and is kept here for backward compatibility.
+Providing a value to this argument has no effect: the value is silently
+ignored, and \code{golem_wd} is used instead.}
 
 \item{initialize}{For JS file - Whether to add the initialize method.
 Default to FALSE. Some JavaScript API require to initialize components
@@ -131,7 +150,7 @@ Default is FALSE.}
 For instance, \code{list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))}.
 The list contain names and rate policies to apply to each event. If a rate policy is found,
 the debounce method with a default delay of 250 ms is applied. You may edit manually according to
-\url{https://shiny.rstudio.com/articles/building-inputs.html}}
+\url{https://shiny.posit.co/r/articles/build/building-inputs/}}
 }
 \value{
 The path to the file, invisibly.
